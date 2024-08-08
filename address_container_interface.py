@@ -3,7 +3,7 @@ from pydantic.dataclasses import dataclass
 from address import Address
 
 
-class AddressContainerInterface(ABC):
+class AddressDatabaseInterface(ABC):
     @abstractmethod
     def set_path(self, path) -> None:
         pass

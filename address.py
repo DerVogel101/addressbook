@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Optional
 from no_touchy.muple import Muple
-from pydantic import field_validator
+from pydantic import field_validator, PositiveInt
 from pydantic.dataclasses import dataclass
 import sqlite3
 import pandas as pd
@@ -33,11 +33,14 @@ import phonenumbers
 
 @dataclass(order=True)
 class Address:
+    """
+    The Zip code are positive integers, because countries with other formats just aren't real.
+    """
     lastname: str
     firstname: str
     street: Optional[str] = None
     number: Optional[str] = None
-    zip_code: Optional[int] = None
+    zip_code: Optional[PositiveInt] = None
     city: Optional[str] = None
     birthdate: Optional[str] = None
     phone: Optional[str] = None

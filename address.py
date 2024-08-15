@@ -39,12 +39,12 @@ class Address:
     number: Optional[str] = field(default=None)
     zip_code: Optional[PositiveInt] = field(default=None)
     city: Optional[str] = field(default=None)
-    birthdate: Optional[str] = field(default=None)
+    birthdate: Optional[date] = field(default=None)
     phone: Optional[str] = field(default=None)
     email: Optional[str] = field(default=None)
 
     @field_validator("birthdate")
-    def parse_birthdate(cls, v) -> date:
+    def parse_birthdate(cls, v: str) -> date:
         return date.fromisoformat(v)
 
     @field_validator("email")

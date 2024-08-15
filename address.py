@@ -31,7 +31,7 @@ import phonenumbers
 @dataclass(order=True)
 class Address:
     """
-    The Zip code are positive integers, because countries with other formats just aren't real.
+    The Zip codes are positive integers, because countries with other formats just aren't real.
     """
     lastname: str
     firstname: str

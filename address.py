@@ -1,3 +1,4 @@
+from dataclasses import field
 from datetime import date
 from typing import Optional
 from no_touchy.muple import Muple
@@ -5,7 +6,6 @@ from pydantic import field_validator, PositiveInt
 from pydantic.dataclasses import dataclass
 import re
 import phonenumbers
-
 
 # @dataclass(order=True)
 # class AddressVanilla:
@@ -35,13 +35,13 @@ class Address:
     """
     lastname: str
     firstname: str
-    street: Optional[str] = None
-    number: Optional[str] = None
-    zip_code: Optional[PositiveInt] = None
-    city: Optional[str] = None
-    birthdate: Optional[str] = None
-    phone: Optional[str] = None
-    email: Optional[str] = None
+    street: Optional[str] = field(default=None)
+    number: Optional[str] = field(default=None)
+    zip_code: Optional[PositiveInt] = field(default=None)
+    city: Optional[str] = field(default=None)
+    birthdate: Optional[str] = field(default=None)
+    phone: Optional[str] = field(default=None)
+    email: Optional[str] = field(default=None)
 
     @field_validator("birthdate")
     def parse_birthdate(cls, v) -> date:

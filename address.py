@@ -7,26 +7,6 @@ from pydantic.dataclasses import dataclass
 import re
 import phonenumbers
 
-# @dataclass(order=True)
-# class AddressVanilla:
-#     lastname: str
-#     firstname: str
-#     street: Optional[str] = None
-#     number: Optional[str] = None
-#     zip_code: Optional[int] = None
-#     city: Optional[str] = None
-#     birthdate: Optional[str] = None
-#     phone: Optional[str] = None
-#     email: Optional[str] = None
-#
-#     def __post_init__(self):
-#         if self.birthdate:
-#             self.birthdate = date.fromisoformat(self.birthdate)
-#
-#     def __str__(self):
-#         return (f"{self.lastname} {self.firstname}\n{self.street} {self.number} \n{self.zip_code} {self.city}\n"
-#                 f"{self.birthdate}\n{self.phone}\n{self.email}")
-
 
 @dataclass(order=True)
 class Address:

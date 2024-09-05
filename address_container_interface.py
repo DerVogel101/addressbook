@@ -49,5 +49,5 @@ class AddressDatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    def get_today_birthdays(self) -> dict[str: Address]:
+    def get_today_birthdays(self) -> dict[int: Address]:
         pass

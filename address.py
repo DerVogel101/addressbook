@@ -45,7 +45,7 @@ class Address:
 
     @field_validator("birthdate")
     def parse_birthdate(cls, v: str) -> date:
-        return date.fromisoformat(v)
+        return v
 
     @field_validator("email")
     def validate_email(cls, v) -> str:
@@ -72,4 +72,5 @@ class Address:
 
 
 if __name__ == "__main__":
-    pass
+    example = Address(lastname="Doe", firstname="John", street="Main Street", number="1", zip_code=12345, city="Springfield", birthdate="2000-01-01", phone="+49 176 1234 5678", email="john.doe@example.com")
+    print(example)

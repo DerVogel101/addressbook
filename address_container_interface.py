@@ -7,7 +7,7 @@ class AddressDatabaseInterface(ABC):
     @abstractmethod
     def set_path(self, path: str) -> None:  # TODO: specify the exception
         """
-        :raises ...: if the path is invalid
+        :raises TypeError: if the path is invalid
         """
         pass
 

@@ -1,6 +1,7 @@
 from address import Address
 from sqlite_database import save_to_sqlite
 
+
 if __name__ == "__main__":
     address = Address(lastname="ADoe", firstname="John", street="Main Street", number="123", zip_code=12345,
                       city="Springfield", birthdate="2000-01-01", phone="+49 176 1234 5678",

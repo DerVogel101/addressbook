@@ -5,7 +5,10 @@ from address import Address
 
 class AddressDatabaseInterface(ABC):
     @abstractmethod
-    def set_path(self, path) -> None:
+    def set_path(self, path) -> None:  # TODO: specify the exception
+        """
+        :raises ...: if the path is invalid
+        """
         pass
 
     @abstractmethod
@@ -21,7 +24,7 @@ class AddressDatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    def get(self, __id: int) -> Address:
+    def get(self, __id: int) -> Address | None:
         pass
 
     @abstractmethod
@@ -29,13 +32,16 @@ class AddressDatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    def delete(self, __id: int) -> int:
-        """:return: the id of the deleted address if it was found, else -1"""
+    def delete(self, __id: int) -> int | None:
+        """:return: the id of the deleted address if it was found, else None"""
         pass
 
     @abstractmethod
-    def update(self, __id: int, **kwargs) -> int:
-        """:return: the id of the updated address if it was found, else -1"""
+    def update(self, __id: int, **kwargs) -> int | None:
+        """
+        :return: the id of the updated address if it was found, else None
+        :raises KeyError: if the address with the given id does not exist
+        """
         pass
 
     @abstractmethod

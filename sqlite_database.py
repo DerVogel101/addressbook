@@ -40,6 +40,43 @@ def save_to_sqlite(addresses: list):
     return ids
 
 
+class SqliteDatabase:
+    def __init__(self, path: str):
+        self.__path = path
+        self.__conn = sqlite3.connect(path)
+
+    def open(self):
+        self.__conn = sqlite3.connect(self.__path)
+
+    def close(self):
+        self.__conn.close()
+
+    def save(self):
+        self.__conn.commit()
+
+    def add(self, address_obj: Address) -> int:
+        cursor = self.__conn.cursor()
+        try:
+            cursor.execute('''
+                INSERT INTO addresses (lastname, firstname, street, number, zip_code, city, birthdate, phone, email)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (address_obj.lastname, address_obj.firstname, address_obj.street, address_obj.number, address_obj.zip_code, address_obj.city, address_obj.birthdate, address_obj.phone, address_obj.email))
+        except sqlite3.IntegrityError as e:
+            print(f"Invalid entry found: {address_obj}\n"
+                  f"{str(e)}")
+        return cursor.lastrowid
+
+    def get_where(self, where_clause: str) -> list[dict]:
+        cursor = self.__conn.cursor()
+        cursor.row_factory = sqlite3.Row
+        cursor.execute(f"SELECT * FROM addresses WHERE {where_clause}")
+        result = cursor.fetchall()
+        cursor.row_factory = None
+        result = [dict(row) for row in result]
+        return result
+
+
+
 if __name__ == "__main__":
     create_table()
     address = Address(lastname="ADoe", firstname="John", street="Main Street", number="123", zip_code=12345,

@@ -5,7 +5,7 @@ from address import Address
 
 class AddressDatabaseInterface(ABC):
     @abstractmethod
-    def set_path(self, path) -> None:  # TODO: specify the exception
+    def set_path(self, path: str) -> None:  # TODO: specify the exception
         """
         :raises ...: if the path is invalid
         """

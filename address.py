@@ -23,10 +23,6 @@ class Address:
     phone: Optional[str] = field(default=None)
     email: Optional[str] = field(default=None)
 
-    @field_validator("birthdate")
-    def parse_birthdate(cls, v: str) -> date:
-        return date.fromisoformat(v)
-
     @field_validator("email")
     def validate_email(cls, v) -> str:
         pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"  # stackoverflow is love

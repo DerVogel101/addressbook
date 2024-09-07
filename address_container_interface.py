@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from pydantic.dataclasses import dataclass
 from address import Address
 
+
 class AddressDatabaseInterface(ABC):
     @abstractmethod
     def set_path(self, path: str) -> None:  # TODO: specify the exception
@@ -19,7 +20,7 @@ class AddressDatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    def get_all(self) -> dict[str: Address]:
+    def get_all(self) -> dict[int: Address]:
         pass
 
     @abstractmethod
@@ -27,7 +28,7 @@ class AddressDatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    def search(self, search_string: str) -> dict[str: Address]:
+    def search(self, search_string: str) -> dict[int: Address]:
         pass
 
     @abstractmethod

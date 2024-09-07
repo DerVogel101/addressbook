@@ -24,7 +24,9 @@ class Address:
     email: Optional[str] = field(default=None)
 
     @field_validator("email")
-    def validate_email(cls, v) -> str:
+    def validate_email(cls, v) -> str | None:
+        if v is None:
+            return v
         pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"  # stackoverflow is love
         if re.match(pattern, v):
             return v
@@ -32,7 +34,9 @@ class Address:
             raise ValueError("Invalid email address")
 
     @field_validator("phone")
-    def validate_phone(cls, v) -> str:
+    def validate_phone(cls, v) -> str | None:
+        if v is None:
+            return v
         try:
             parsed_number = phonenumbers.parse(v, None)
             if phonenumbers.is_valid_number(parsed_number):
@@ -48,5 +52,5 @@ class Address:
 
 
 if __name__ == "__main__":
-    example = Address(lastname="Doe", firstname="John", street="Main Street", number="1", zip_code=12345, city="Springfield", birthdate="2000-01-01", phone="+49 176 1234 5678", email="john.doe@example.com")
+    example = Address(lastname="Doe", firstname="John", street="Main Street", number="1", zip_code=12345, city="Springfield", birthdate="2000-01-01", phone=None, email="john.doe@example.com")  # "+49 176 1234 5678"
     print(example)

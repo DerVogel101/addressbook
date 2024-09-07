@@ -75,6 +75,69 @@ class SqliteDatabase:
         result = [dict(row) for row in result]
         return result
 
+    def get_all(self) -> list[dict]:
+        cursor = self.__conn.cursor()
+        cursor.row_factory = sqlite3.Row
+        cursor.execute('''
+            SELECT * FROM addresses
+        ''')
+        result = cursor.fetchall()
+        cursor.row_factory = None
+        result = [dict(row) for row in result]
+        return result
+
+    def delete(self, row_id: int) -> int | None:
+        cursor = self.__conn.cursor()
+        cursor.execute('''
+            DELETE FROM addresses WHERE id = ?
+        ''', (row_id,))
+        if cursor.rowcount == 1:
+            return row_id
+        else:
+            return None
+
+    def search(self, search_string: str) -> list[dict]:
+        cursor = self.__conn.cursor()
+        cursor.row_factory = sqlite3.Row
+        cursor.execute(f'''
+            SELECT * FROM addresses WHERE
+            lastname LIKE '%{search_string}%' OR
+            firstname LIKE '%{search_string}%' OR
+            street LIKE '%{search_string}%' OR
+            number LIKE '%{search_string}%' OR
+            zip_code LIKE '%{search_string}%' OR
+            city LIKE '%{search_string}%' OR
+            birthdate LIKE '%{search_string}%' OR
+            phone LIKE '%{search_string}%' OR
+            email LIKE '%{search_string}%'
+        ''')
+        result = cursor.fetchall()
+        cursor.row_factory = None
+        result = [dict(row) for row in result]
+        return result
+
+    def update(self, row_id: int, **kwargs) -> int | None:
+        previous = self.get_where(f"id = {row_id}")[0]
+        previous.update(kwargs)
+        cursor = self.__conn.cursor()
+        cursor.execute('''
+            UPDATE addresses SET
+            lastname = ?,
+            firstname = ?,
+            street = ?,
+            number = ?,
+            zip_code = ?,
+            city = ?,
+            birthdate = ?,
+            phone = ?,
+            email = ?
+            WHERE id = ?
+        ''', (previous['lastname'], previous['firstname'], previous['street'], previous['number'], previous['zip_code'], previous['city'], previous['birthdate'], previous['phone'], previous['email'], row_id))
+        if cursor.rowcount == 1:
+            return row_id
+        else:
+            return None
+
 
 
 if __name__ == "__main__":

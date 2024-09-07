@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="addresses" uuid="8c0e86ad-064c-49ee-a294-51e841ae55ec">
-      <driver-ref>c92bb177-a86e-41b6-a852-e5b4400a4354</driver-ref>
+      <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:H:\programming\addressbook\addresses.sqlite3</jdbc-url>
@@ -17,7 +17,7 @@
       </libraries>
     </data-source>
     <data-source source="LOCAL" name="addresses [2]" uuid="b1b9e79e-e1d4-4ccd-a34a-3823755c16fe">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>4a934438-c74d-4093-8614-4cfe9c06f50c</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\janir\Documents\addrbook\addresses.sqlite3</jdbc-url>

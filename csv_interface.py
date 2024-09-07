@@ -6,9 +6,12 @@ from dataclasses import dataclass, asdict
 
 class CsvInterface(AddressDatabaseInterface):
     def __init__(self, path):
+        self.__path = None
+        self.__file = None
         self.set_path(path)
         self.df_memory = None
 
+    @staticmethod  # TODO: check if this works
     def __require_df_memory(func):
         def wrapper(self, *args, **kwargs):
             if self.df_memory is None:
@@ -17,16 +20,20 @@ class CsvInterface(AddressDatabaseInterface):
         return wrapper
 
     def set_path(self, path):
-        pattern = ""
-        match os.name:
-            case 'nt':
-                pattern = r"[a-zA-Z]:\\(?:[a-zA-Z0-9]+\\)*[a-zA-Z0-9]+\.csv$"
-            case _:
-                pattern = r"^(?:/[^/ ]*)*/?.csv$"
-        if re.search(pattern, path):
-            self.__path = path
+        if os.path.isabs(path):
+            pattern = ""
+            match os.name:
+                case 'nt':
+                    pattern = r"[a-zA-Z]:\\(?:[a-zA-Z0-9]+\\)*[a-zA-Z0-9]+\.csv$"
+                case _:
+                    pattern = r"^(?:/[^/ ]*)*/?.csv$"
+            if re.search(pattern, path):
+                self.__path = path
+                return None
+        else:
+            self.__path = os.path.abspath(path)
             return None
-        return KeyError("Invalid path")
+        raise KeyError("Invalid path")
 
     def open(self):
         self.__file = open(self.__path, 'r')
@@ -91,7 +98,8 @@ class CsvInterface(AddressDatabaseInterface):
         pass
     
 
-a = CsvInterface("/home/someone/Code/geb_db/test.csv")
+# a = CsvInterface("/home/someone/Code/geb_db/test.csv")
+a = CsvInterface(r"./test.csv")
 a.open()
 a.add_address(Address(lastname="a", firstname="a", street="a", number="a", zip_code=12345, city="a", birthdate="2000-01-01", phone="+49 176 1234 5678", email="a@a.de"))
 #print(a.get(0))

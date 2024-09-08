@@ -99,22 +99,22 @@ class SqliteDatabase:
     def search(self, search_string: str) -> list[dict]:
         cursor = self.__conn.cursor()
         cursor.row_factory = sqlite3.Row
-        cursor.execute(f'''
+        query = """
             SELECT * FROM addresses WHERE
-            lastname LIKE '%{search_string}%' OR
-            firstname LIKE '%{search_string}%' OR
-            street LIKE '%{search_string}%' OR
-            number LIKE '%{search_string}%' OR
-            zip_code LIKE '%{search_string}%' OR
-            city LIKE '%{search_string}%' OR
-            birthdate LIKE '%{search_string}%' OR
-            phone LIKE '%{search_string}%' OR
-            email LIKE '%{search_string}%'
-        ''')
+            lastname LIKE ? OR
+            firstname LIKE ? OR
+            street LIKE ? OR
+            number LIKE ? OR
+            zip_code LIKE ? OR
+            city LIKE ? OR
+            birthdate LIKE ? OR
+            phone LIKE ? OR
+            email LIKE ?
+        """
+        cursor.execute(query, [f'%{search_string}%'] * 9)
         result = cursor.fetchall()
         cursor.row_factory = None
-        result = [dict(row) for row in result]
-        return result
+        return [dict(row) for row in result]
 
     def update(self, row_id: int, **kwargs) -> int | None:
         previous = self.get_where(f"id = {row_id}")[0]

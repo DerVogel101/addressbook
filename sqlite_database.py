@@ -6,7 +6,7 @@ from address import Address
 def create_table():
     with closing(sqlite3.connect('addresses.sqlite3')) as conn:
         with conn:
-            conn.execute('''
+            conn.execute("""
                 CREATE TABLE IF NOT EXISTS addresses (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     lastname TEXT,
@@ -20,7 +20,7 @@ def create_table():
                     email TEXT,
                     UNIQUE(lastname, firstname, street, number, zip_code, city, birthdate)
                 )
-            ''')
+            """)
 
 
 def save_to_sqlite(addresses: list):
@@ -29,10 +29,10 @@ def save_to_sqlite(addresses: list):
         cursor = conn.cursor()
         for address in addresses:
             try:
-                cursor.execute('''
+                cursor.execute("""
                     INSERT INTO addresses (lastname, firstname, street, number, zip_code, city, birthdate, phone, email)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ''', (address.lastname, address.firstname, address.street, address.number, address.zip_code, address.city, address.birthdate, address.phone, address.email))
+                """, (address.lastname, address.firstname, address.street, address.number, address.zip_code, address.city, address.birthdate, address.phone, address.email))
                 ids.append(cursor.lastrowid)
             except sqlite3.IntegrityError:
                 print(f"Duplicate entry found: {address}")
@@ -40,13 +40,37 @@ def save_to_sqlite(addresses: list):
     return ids
 
 
+class SqlitePathError(Exception):
+    pass
+
+
 class SqliteDatabase:
     def __init__(self, path: str):
         self.__path = path
-        self.__conn = sqlite3.connect(path)
+        self.__conn: sqlite3.Connection | None = None
 
     def open(self):
-        self.__conn = sqlite3.connect(self.__path)
+        try:
+            self.__conn = sqlite3.connect(self.__path)
+        except sqlite3.OperationalError as e:
+            raise SqlitePathError(f"Could not open database at {self.__path}") from e
+        cursor = self.__conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS addresses (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                lastname TEXT,
+                firstname TEXT,
+                street TEXT,
+                number TEXT,
+                zip_code INTEGER,
+                city TEXT,
+                birthdate TEXT,
+                phone TEXT,
+                email TEXT,
+                UNIQUE(lastname, firstname, street, number, zip_code, city, birthdate)
+            )
+        """)
+        return cursor.rowcount > 0
 
     def close(self):
         self.__conn.close()
@@ -57,10 +81,10 @@ class SqliteDatabase:
     def add(self, address_obj: Address) -> int:
         cursor = self.__conn.cursor()
         try:
-            cursor.execute('''
+            cursor.execute("""
                 INSERT INTO addresses (lastname, firstname, street, number, zip_code, city, birthdate, phone, email)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (address_obj.lastname, address_obj.firstname, address_obj.street, address_obj.number, address_obj.zip_code, address_obj.city, address_obj.birthdate, address_obj.phone, address_obj.email))
+            """, (address_obj.lastname, address_obj.firstname, address_obj.street, address_obj.number, address_obj.zip_code, address_obj.city, address_obj.birthdate, address_obj.phone, address_obj.email))
         except sqlite3.IntegrityError as e:
             print(f"Invalid entry found: {address_obj}\n"
                   f"{str(e)}")
@@ -78,9 +102,9 @@ class SqliteDatabase:
     def get_all(self) -> list[dict]:
         cursor = self.__conn.cursor()
         cursor.row_factory = sqlite3.Row
-        cursor.execute('''
+        cursor.execute("""
             SELECT * FROM addresses
-        ''')
+        """)
         result = cursor.fetchall()
         cursor.row_factory = None
         result = [dict(row) for row in result]
@@ -88,9 +112,9 @@ class SqliteDatabase:
 
     def delete(self, row_id: int) -> int | None:
         cursor = self.__conn.cursor()
-        cursor.execute('''
+        cursor.execute("""
             DELETE FROM addresses WHERE id = ?
-        ''', (row_id,))
+        """, (row_id,))
         if cursor.rowcount == 1:
             return row_id
         else:
@@ -120,7 +144,7 @@ class SqliteDatabase:
         previous = self.get_where(f"id = {row_id}")[0]
         previous.update(kwargs)
         cursor = self.__conn.cursor()
-        cursor.execute('''
+        cursor.execute("""
             UPDATE addresses SET
             lastname = ?,
             firstname = ?,
@@ -132,12 +156,11 @@ class SqliteDatabase:
             phone = ?,
             email = ?
             WHERE id = ?
-        ''', (previous['lastname'], previous['firstname'], previous['street'], previous['number'], previous['zip_code'], previous['city'], previous['birthdate'], previous['phone'], previous['email'], row_id))
+        """, (previous['lastname'], previous['firstname'], previous['street'], previous['number'], previous['zip_code'], previous['city'], previous['birthdate'], previous['phone'], previous['email'], row_id))
         if cursor.rowcount == 1:
             return row_id
         else:
             return None
-
 
 
 if __name__ == "__main__":

@@ -1,7 +1,5 @@
-import os
-
 from address_container_interface import AddressDatabaseInterface
-from sqlite_database import SqliteDatabase
+from sqlite_database import SqliteDatabase, SqlitePathError
 from address import Address
 from datetime import date
 
@@ -21,7 +19,7 @@ class SqliteInterface(AddressDatabaseInterface):
 
     def set_path(self, path: str) -> None:
         """
-        :raises TypeError: if the path is invalid
+        :raises TypeError: if the path is not a string
         """
         if not isinstance(path, str):
             raise TypeError("Path must be a string")
@@ -34,6 +32,12 @@ class SqliteInterface(AddressDatabaseInterface):
         if not self.__sql_path:
             raise ValueError("Path is not set")
         self.__squirrel_lite = SqliteDatabase(self.__sql_path)
+        try:
+            creation_result = self.__squirrel_lite.open()
+            if not creation_result:
+                print("Database newly created")
+        except SqlitePathError as e:
+            raise ValueError(f"Could not open database at {self.__sql_path}") from e
 
     def save(self) -> None:
         self.__squirrel_lite.save()
@@ -65,7 +69,7 @@ class SqliteInterface(AddressDatabaseInterface):
         result_status = self.__squirrel_lite.delete(__id)
         return result_status
 
-    def update(self, __id: int, **kwargs) -> int | None:
+    def update(self, __id: int, raising: bool = True, **kwargs) -> int | None:
         """
         :return: the id of the updated address if it was found, else None
         :raises KeyError: if the address with the given id does not exist
@@ -73,6 +77,8 @@ class SqliteInterface(AddressDatabaseInterface):
         if not self.__squirrel_lite:
             raise ValueError("Database is not open")
         result_status = self.__squirrel_lite.update(__id, **kwargs)
+        if raising and result_status is None:
+            raise KeyError(f"Address with id {__id} not found")
         return result_status
 
     def add_address(self, address) -> int:

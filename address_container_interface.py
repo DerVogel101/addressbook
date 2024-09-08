@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
-from pydantic.dataclasses import dataclass
 from address import Address
 
 
 class AddressDatabaseInterface(ABC):
     @abstractmethod
-    def set_path(self, path: str) -> None:  # TODO: specify the exception
+    def set_path(self, path: str) -> None:  # FIXME: should be in open
         """
         :raises TypeError: if the path is invalid
         """

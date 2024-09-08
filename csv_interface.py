@@ -1,17 +1,18 @@
 from address_container_interface import AddressDatabaseInterface
 from address import Address
 import os, re
+from pathlib import Path
+from datetime import date
 import pandas as pd
 from dataclasses import dataclass, asdict
 
 class CsvInterface(AddressDatabaseInterface):
     def __init__(self, path):
         self.__path = None
-        self.__file = None
         self.set_path(path)
         self.df_memory = None
 
-    @staticmethod  # TODO: check if this works
+    @staticmethod  # TODO: check if this works: This *should* work
     def __require_df_memory(func):
         def wrapper(self, *args, **kwargs):
             if self.df_memory is None:
@@ -36,13 +37,13 @@ class CsvInterface(AddressDatabaseInterface):
         raise KeyError("Invalid path")
 
     def open(self):
-        self.__file = open(self.__path, 'r')
-        with open(self.__path, 'r') as file:
-            try:
-                self.df_memory = pd.read_csv(file, index_col=["id"])
-            except pd.errors.EmptyDataError:
-                #self.df_memory = pd.DataFrame(columns=['lastname', 'firstname', 'street', 'number', 'zip_code', 'city', 'birthdate', 'phone', 'email'])
-                print("Note: Empty File")
+        if Path(self.__path).is_file():
+            with open(self.__path, 'r') as file:
+                try:
+                    self.df_memory = pd.read_csv(file, index_col=["id"])
+                except pd.errors.EmptyDataError:
+                    #self.df_memory = pd.DataFrame(columns=['lastname', 'firstname', 'street', 'number', 'zip_code', 'city', 'birthdate', 'phone', 'email'])
+                    print("Note: Empty File")
         return None
 
     @__require_df_memory
@@ -69,7 +70,16 @@ class CsvInterface(AddressDatabaseInterface):
     
 
     def search(self, search_string: str):
-        pass
+        result = self.df_memory[\
+            self.df_memory.apply(\
+                    lambda row: row
+                                .astype(str)
+                                .str
+                                .contains(search_string, case=False, na=False)
+                                .any(),\
+                axis=1)]
+        return [Address(**row[1].to_dict()) for row in result.iterrows()]
+
 
     @__require_df_memory
     def delete(self, __id: int):
@@ -80,7 +90,18 @@ class CsvInterface(AddressDatabaseInterface):
             return None
 
     def update(self, __id: int, **kwargs):
-        pass
+        row = None
+        try:
+            row =  self.df_memory.iloc[__id]
+        except KeyError:
+            return None
+        for key, value in kwargs.items():
+            if key not in row.keys():
+                print("Skipping key, not supported")
+                continue
+            row[key] = value
+        return __id
+         
 
     def add_address(self, address):
         serialized_address = asdict(address)
@@ -95,13 +116,22 @@ class CsvInterface(AddressDatabaseInterface):
         
 
     def get_today_birthdays(self):
-        pass
+        # return [Address(**row[1].to_dict()) for row in self.df_memory.iterrows() if row[1].birthdate == date.today().strftime("%Y-%m-%d")]
+
+        result = self.df_memory[self.df_memory.birthdate == date.today().strftime("%Y-%m-%d")]
+        return [Address(**row[1].to_dict()) for row in result.iterrows()]
+
     
 
 # a = CsvInterface("/home/someone/Code/geb_db/test.csv")
 a = CsvInterface(r"./test.csv")
 a.open()
-a.add_address(Address(lastname="a", firstname="a", street="a", number="a", zip_code=12345, city="a", birthdate="2000-01-01", phone="+49 176 1234 5678", email="a@a.de"))
-#print(a.get(0))
+#a.add_address(Address(lastname="a", firstname="a", street="a", number="a", zip_code=12345, city="a", birthdate="2000-01-01", phone="+49 176 1234 5678", email="a@a.de"))
+#a.add_address(Address(lastname="Huber", firstname="Hans", street="Obere Bahnhofstra e", number="3", zip_code=70173, city="Stuttgart", birthdate="1990-01-01", phone="+49 711 1234 5678", email="hans.huber@exaample.de"))
+#a.add_address(Address(lastname="Schmidt", firstname="J rgen", street="K nigstra e", number="1", zip_code=70173, city="Stuttgart", birthdate="1980-02-02", phone="+49 711 5678 9012", email="juergen.schmidt@example.de"))
+#a.add_address(Address(lastname="Fischer", firstname="Monika", street="Marienplatz", number="2", zip_code=70173, city="Stuttgart", birthdate="1970-03-03", phone="+49 711 1234 5679", email="monika.fischer@example.com"))
+#a.add_address(Address(lastname="TodaysBirthday", firstname="John", street="Today Street", number="1", zip_code=12345, city="Today City", birthdate=date.today(), phone="+49 176 1234 5678", email="john.doe@example.com"))
+#print(a.search("Stuttgart"))
+print(a.get_today_birthdays())
 #a.delete(0)
 a.save()

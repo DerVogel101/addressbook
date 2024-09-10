@@ -1,24 +1,42 @@
+from sqlite_interface import SqliteInterface
+import os
 from address import Address
-from sqlite_database import save_to_sqlite
-
 
 if __name__ == "__main__":
-    address = Address(lastname="ADoe", firstname="John", street="Main Street", number="123", zip_code=12345,
-                      city="Springfield", birthdate="2000-01-01", phone="+49 176 1234 5678",
-                      email="john.doe@doe-mail.io")
+    # Test the SqliteInterface
+    USE_WITH = True
+    SQLITE_PATH = "./test.db"
+    addr1 = Address(
+        lastname="Gunther", firstname="Hari", street="Main.cpp", number="-1", zip_code=404,
+        city="Gravity Falls", birthdate="2024-09-07", phone="+49 176 1234 5678",
+        email="anomaly@krampf.xd"
+    )
+    addr2 = Address(
+        lastname="Gunther", firstname="Häri", street="Main.cpp", number="-1", zip_code=404,
+        city="Gravity Falls", birthdate="2024-09-07", phone="+49 176 1234 5678",
+        email="anomaly@krampf.xd"
+    )
 
-    adress3 = Address(lastname="Abc", firstname="a")
-    adress4 = Address(lastname="Abc", firstname="b")
-    adress5 = Address(lastname="bbc", firstname="a")
-    adress6 = Address(lastname="bbc", firstname="b")
+    with SqliteInterface(SQLITE_PATH) as interface:
 
-    address7 = Address(lastname="bbc", firstname="b", street="Main Street", number="123", zip_code=12345)
-    print(repr(address))
+        interface.open()
 
-    sort_list = [adress4, adress6, adress3, adress5]
-    save_to_sqlite([address, adress3, adress4, adress5, adress6])
-    save_to_sqlite([address7])
-    sort_list.sort()
-    print(sort_list)
-    print(address.__dict__)
+        # Raises ValueError because the path is already set and the connection is open
+        try:
+            interface.set_path(SQLITE_PATH)
+        except ValueError as e:
+            print(repr(e) + " from " + repr(e.__cause__))
 
+        interface.save()
+
+    interface = SqliteInterface()
+    interface.set_path(SQLITE_PATH)
+    interface.open()
+
+    print(interface.get_all())
+    for id_, address in interface:
+        print(id_, address)
+
+    interface.close()
+
+    os.remove(SQLITE_PATH)

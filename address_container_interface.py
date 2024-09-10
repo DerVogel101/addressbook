@@ -4,7 +4,7 @@ from address import Address
 
 class AddressDatabaseInterface(ABC):
     @abstractmethod
-    def set_path(self, path: str) -> None:  # FIXME: should be in open
+    def set_path(self, path: str) -> None:
         """
         :raises TypeError: if the path is invalid
         """
@@ -36,9 +36,9 @@ class AddressDatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    def update(self, __id: int, **kwargs) -> int | None:
+    def update(self, __id: int, **kwargs) -> int:
         """
-        :return: the id of the updated address if it was found, else None
+        :return: the id of the updated address if it was found
         :raises KeyError: if the address with the given id does not exist
         """
         pass

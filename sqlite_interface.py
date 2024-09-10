@@ -1,3 +1,5 @@
+from typing import Optional
+
 from address_container_interface import AddressDatabaseInterface
 from sqlite_database import SqliteDatabase, SqlitePathError
 from address import Address
@@ -5,9 +7,10 @@ from datetime import date
 
 
 class SqliteInterface(AddressDatabaseInterface):
-    def __init__(self):
-        self.__sql_path: str | None = None
+    def __init__(self, path: Optional[str] = None):
+        self.__sql_path: str | None = path
         self.__squirrel_lite: SqliteDatabase | None = None
+        self.__connection_open = False
 
     def __enter__(self):
         return self
@@ -16,6 +19,15 @@ class SqliteInterface(AddressDatabaseInterface):
         if self.__squirrel_lite:
             self.__squirrel_lite.close()
             self.__squirrel_lite = None
+        self.__connection_open = False
+
+    def __iter__(self) -> iter:
+        data = self.get_all()
+        result_iter = [(key, data[key]) for key in data].__iter__()
+        return result_iter
+
+    def close(self) -> None:
+        self.__exit__(None, None, None)
 
     def set_path(self, path: str) -> None:
         """
@@ -23,7 +35,10 @@ class SqliteInterface(AddressDatabaseInterface):
         """
         if not isinstance(path, str):
             raise TypeError("Path must be a string")
-        self.__sql_path = path
+        if not self.__connection_open:
+            self.__sql_path = path
+        else:
+            raise ValueError("Connection is open") from SqlitePathError("Cannot set path while connection is open")
 
     def open(self) -> None:
         """
@@ -36,6 +51,7 @@ class SqliteInterface(AddressDatabaseInterface):
             creation_result = self.__squirrel_lite.open()
             if not creation_result:
                 print("Database newly created")
+            self.__connection_open = True
         except SqlitePathError as e:
             raise ValueError(f"Could not open database at {self.__sql_path}") from e
 
@@ -69,7 +85,7 @@ class SqliteInterface(AddressDatabaseInterface):
         result_status = self.__squirrel_lite.delete(__id)
         return result_status
 
-    def update(self, __id: int, raising: bool = True, **kwargs) -> int | None:
+    def update(self, __id: int, **kwargs) -> int:
         """
         :return: the id of the updated address if it was found, else None
         :raises KeyError: if the address with the given id does not exist
@@ -77,7 +93,7 @@ class SqliteInterface(AddressDatabaseInterface):
         if not self.__squirrel_lite:
             raise ValueError("Database is not open")
         result_status = self.__squirrel_lite.update(__id, **kwargs)
-        if raising and result_status is None:
+        if result_status is None:
             raise KeyError(f"Address with id {__id} not found")
         return result_status
 
@@ -101,6 +117,8 @@ if __name__ == "__main__":
     with ContextSupport(SqliteInterface()) as adress_book:
         adress_book.set_path("addresses.sqlite3")
         adress_book.open()
+        for address in adress_book:
+            print(address)
         # adress_book.add_address(Address(
         #     lastname="Günther", firstname="Harald", street="Main.cpp", number="-1", zip_code=404,
         #     city="Gravity Falls", birthdate="1990-01-01", phone="+49 176 1234 5678",

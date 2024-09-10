@@ -15,6 +15,9 @@ class AddressDatabaseInterface(ABC):
         pass
 
     @abstractmethod
+    def close(self) -> None:
+        pass
+    @abstractmethod
     def save(self) -> None:
         pass
 

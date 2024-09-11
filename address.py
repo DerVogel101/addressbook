@@ -52,5 +52,5 @@ class Address:
 
 
 if __name__ == "__main__":
-    example = Address(lastname="Doe", firstname="John", street="Main Street", number="1", zip_code=12345, city="Springfield", birthdate="2000-01-01", phone=None, email="john.doe@example.com")  # "+49 176 1234 5678"
+    example = Address(lastname="Doe", firstname="John", street="Main Street", number="1", zip_code=12345, city="Springfield", birthdate="2000-01-01", phone="+49 176 1234 5678", email="john.doe@example.com")
     print(example)

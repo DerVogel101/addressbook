@@ -45,7 +45,7 @@ class SqliteInterface(AddressDatabaseInterface):
         :raises ValueError: if the path is invalid
         """
         if not self.__sql_path:
-            raise ValueError("Path is not set")
+            raise ValueError("Path is not set") from SqlitePathError("Invalid path")
         self.__squirrel_lite = SqliteDatabase(self.__sql_path)
         try:
             creation_result = self.__squirrel_lite.open()

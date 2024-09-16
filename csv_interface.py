@@ -239,12 +239,6 @@ if __name__ == "__main__":
                 phone="+49 711 5678 9012",
                 email="juergen.schmidt@example.de")
 
-        def run_tests(self):
-            self.setUp()
-            self.test_add_address()
-            self.test_get()
-            self.test_expect_all()
-            self.test_reopen()
-            self.test_update()
 
-    TestCsvInterface().run_tests()
+
+    unittest.main()

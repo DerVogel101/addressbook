@@ -112,44 +112,4 @@ class SqliteInterface(AddressDatabaseInterface):
 
 
 if __name__ == "__main__":
-    from context_support import ContextSupport
-
-    with ContextSupport(SqliteInterface()) as adress_book:
-        adress_book.set_path("addresses.sqlite3")
-        adress_book.open()
-        for address in adress_book:
-            print(address)
-        # adress_book.add_address(Address(
-        #     lastname="Günther", firstname="Harald", street="Main.cpp", number="-1", zip_code=404,
-        #     city="Gravity Falls", birthdate="1990-01-01", phone="+49 176 1234 5678",
-        #     email="anomaly@krampf.xd"
-        # ))
-        id1 = adress_book.add_address(Address(
-            lastname="Gunther", firstname="Hari", street="Main.cpp", number="-1", zip_code=404,
-            city="Gravity Falls", birthdate="2024-09-07", phone="+49 176 1234 5678",
-            email="anomaly@krampf.xd"
-        ))
-        id2 = adress_book.add_address(Address(
-            lastname="Gunther", firstname="Häri", street="Main.cpp", number="-1", zip_code=404,
-            city="Gravity Falls", birthdate="2024-09-07", phone="+49 176 1234 5678",
-            email="anomaly@krampf.xd"
-        ))
-        print("Added: ", id1, id2)
-        delete_id1 = adress_book.delete(id1)
-        delete_id2 = adress_book.delete(id2)
-        print("Deleted:", delete_id1, delete_id2)
-        result = adress_book.get_today_birthdays()
-        print("Got Birthdays Today:", result)
-        result = adress_book.get(73)
-        print("Got Address 73:", result)
-        result = adress_book.get_all()
-        print("Got All:", result)
-        result = adress_book.search("John")
-        print("Searched for John:", result)
-        before = adress_book.get(1)
-        result = adress_book.update(1, lastname="Doe", email=None)
-        after = adress_book.get(1)
-        print("Updated 1 to Doe:", result)
-        print("Before:", before)
-        print("After:", after)
-        # adress_book.save()
+    ...

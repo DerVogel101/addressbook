@@ -1,4 +1,5 @@
 .venv
 venv
 __pycache__
-csvTest*
+tests/sqlTest*
+tests/csvTest*

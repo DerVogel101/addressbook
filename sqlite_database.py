@@ -70,7 +70,6 @@ class SqliteDatabase:
                 UNIQUE(lastname, firstname, street, number, zip_code, city, birthdate)
             )
         """)
-        return cursor.rowcount > 0
 
     def close(self):
         self.__conn.close()
@@ -141,7 +140,10 @@ class SqliteDatabase:
         return [dict(row) for row in result]
 
     def update(self, row_id: int, **kwargs) -> int | None:
-        previous = self.get_where(f"id = {row_id}")[0]
+        try:
+            previous = self.get_where(f"id = {row_id}")[0]
+        except IndexError:
+            return None
         previous.update(kwargs)
         cursor = self.__conn.cursor()
         cursor.execute("""

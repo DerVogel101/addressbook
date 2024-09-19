@@ -48,9 +48,7 @@ class SqliteInterface(AddressDatabaseInterface):
             raise ValueError("Path is not set") from SqlitePathError("Invalid path")
         self.__squirrel_lite = SqliteDatabase(self.__sql_path)
         try:
-            creation_result = self.__squirrel_lite.open()
-            if not creation_result:
-                print("Database newly created")
+            self.__squirrel_lite.open()
             self.__connection_open = True
         except SqlitePathError as e:
             raise ValueError(f"Could not open database at {self.__sql_path}") from e
@@ -112,4 +110,4 @@ class SqliteInterface(AddressDatabaseInterface):
 
 
 if __name__ == "__main__":
-    ...
+    pass

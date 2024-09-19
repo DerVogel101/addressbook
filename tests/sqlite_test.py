@@ -11,7 +11,7 @@ import shutil
 import os
 
 
-class TestCsvInterface(unittest.TestCase):
+class TestSqlInterface(unittest.TestCase):
 
     def setUp(self) -> None:
         example_path = "ExampleSQLTest.db"

@@ -58,6 +58,8 @@ class CsvInterface(AddressDatabaseInterface):
                         self.__df_memory['number'] = self.__df_memory['number'].apply(lambda x: str(x))
                 except pd.errors.EmptyDataError:
                     print("Note: Empty File")
+        elif Path(self.__path).is_dir():
+            raise IsADirectoryError("Path is a directory")
         return None
 
     @__require_df_memory
@@ -77,14 +79,14 @@ class CsvInterface(AddressDatabaseInterface):
         addresses = []
         for row in self.__df_memory.iterrows():
             # row[0] is the index
-            addresses.append(self.series_to_address(row[1]))
+            addresses.append(self.__series_to_address(row[1]))
         return addresses
 
     @__require_df_memory
     def get(self, __id: int) -> Address | None:
         if __id not in self.__df_memory.index:
             return None
-        return self.series_to_address(self.__df_memory.iloc[__id])
+        return self.__series_to_address(self.__df_memory.iloc[__id])
 
     @__require_df_memory
     def search(self, search_string: str) -> dict[int: Address]:
@@ -96,7 +98,7 @@ class CsvInterface(AddressDatabaseInterface):
                 .contains(search_string, case=False, na=False)
                 .any(),
                 axis=1)]
-        return [self.series_to_address(row[1]) for row in result.iterrows()]
+        return [self.__series_to_address(row[1]) for row in result.iterrows()]
 
     @__require_df_memory
     def delete(self, __id: int) -> int | None:
@@ -106,6 +108,7 @@ class CsvInterface(AddressDatabaseInterface):
         except KeyError:
             return None
 
+    @__require_df_memory
     def update(self, __id: int, **kwargs) -> int | None:
         """
         :raise KeyError: if the address with the given id does not exist
@@ -133,13 +136,12 @@ class CsvInterface(AddressDatabaseInterface):
 
     @__require_df_memory
     def get_today_birthdays(self) -> dict[int: Address]:
-        # return [Address(**row[1].to_dict()) for row in self.df_memory.iterrows() if row[1].birthdate == date.today().strftime("%Y-%m-%d")]
 
         result = self.__df_memory[self.__df_memory.birthdate == date.today().strftime("%Y-%m-%d")]
         return [Address(**row[1].to_dict()) for row in result.iterrows()]
     
     @staticmethod
-    def series_to_address(series: pd.Series) -> Address:
+    def __series_to_address(series: pd.Series) -> Address:
         row_dict = series.to_dict()
         # Manual type conversions
         row_dict['number'] = str(row_dict['number'])

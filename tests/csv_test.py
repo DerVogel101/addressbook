@@ -14,7 +14,7 @@ import os
 class TestCsvInterface(unittest.TestCase):
 
     def setUp(self) -> None:
-        example_path = "ExampleCSVTest.csv"
+        example_path = f"{os.path.realpath(__file__).strip(f"{__name__}.py")}ExampleCSVTest.csv"
         self.seed = random.randint(0, 1000)
         shutil.copyfile(example_path, rf"./csvTest{self.seed}.csv")
         self.interface = CsvInterface(rf"./csvTest{self.seed}.csv")

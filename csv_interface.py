@@ -76,10 +76,10 @@ class CsvInterface(AddressDatabaseInterface):
 
     @__require_df_memory
     def get_all(self) -> dict[int: Address]:
-        addresses = []
+        addresses = {}
         for row in self.__df_memory.iterrows():
             # row[0] is the index
-            addresses.append(self.__series_to_address(row[1]))
+            addresses[row[0]] = self.__series_to_address(row[1])
         return addresses
 
     @__require_df_memory
@@ -114,8 +114,11 @@ class CsvInterface(AddressDatabaseInterface):
         :raise KeyError: if the address with the given id does not exist
         """
         # pd.options.mode.copy_on_write = False
-        row = self.__df_memory.iloc[__id]
-       
+        try:
+            row = self.__df_memory.iloc[__id]
+        except IndexError:
+            raise KeyError(f"Address with id {__id} does not exist")
+
         for key, value in kwargs.items():
             if key not in row.keys():
                 print("Skipping key, not supported")
@@ -138,8 +141,10 @@ class CsvInterface(AddressDatabaseInterface):
     def get_today_birthdays(self) -> dict[int: Address]:
 
         result = self.__df_memory[self.__df_memory.birthdate == date.today().strftime("%Y-%m-%d")]
-        return [Address(**row[1].to_dict()) for row in result.iterrows()]
-    
+        address_dict = {}
+        for row in result.iterrows():
+            address_dict[row[0]] = self.__series_to_address(row[1])
+        return address_dict    
     @staticmethod
     def __series_to_address(series: pd.Series) -> Address:
         row_dict = series.to_dict()

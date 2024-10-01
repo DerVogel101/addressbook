@@ -22,13 +22,19 @@ extensions = [
         'sphinx.ext.autodoc',
         'sphinx.ext.todo',
         'sphinx.ext.viewcode',
+        'sphinx.ext.napoleon',
 ]
 
 templates_path = ['_templates']
 exclude_patterns = [".vscode", "__pycache__"]
 
+autodoc_default_options = {
+    'undoc-members': True,
+    'private-members': True,
+}
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'groundwork'
 html_static_path = ['_static']
+html_theme = 'sphinx_rtd_theme'

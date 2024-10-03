@@ -5,11 +5,28 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Current File",
+            "name": "Current File",
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
         },
+        {
+            "name": "Django",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/webapp/manage.py",
+            "cwd": "${workspaceFolder}/webapp",
+            "args": ["runserver", "0.0.0.0:8000"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Watch NPM",
+            "type": "node-terminal",
+            "cwd": "${workspaceFolder}/webapp/frontend/adress-database",
+            "command": "npm run watch",
+            "request": "launch"
+        }
     ]
 }

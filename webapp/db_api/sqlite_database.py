@@ -1,6 +1,6 @@
 import sqlite3
 from contextlib import closing
-from address import Address
+from .address import Address
 
 
 def create_table():

@@ -1,7 +1,6 @@
 from dataclasses import field
 from datetime import date
 from typing import Optional
-from no_touchy.muple import Muple
 from pydantic import field_validator, PositiveInt
 from pydantic.dataclasses import dataclass
 import re

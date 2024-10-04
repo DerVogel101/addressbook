@@ -5,9 +5,10 @@ from datetime import date
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
 
-from address import Address
-from address_container_interface import AddressDatabaseInterface
+from .address import Address
+from .address_container_interface import AddressDatabaseInterface
 
 
 class CsvInterface(AddressDatabaseInterface):
@@ -149,15 +150,26 @@ class CsvInterface(AddressDatabaseInterface):
     def __series_to_address(series: pd.Series) -> Address:
         row_dict = series.to_dict()
         # Manual type conversions
-        row_dict['number'] = str(row_dict['number'])
+ 
+        # This CAN be false, because nan != nan for some reason..
+        for key, value in row_dict.items():
+            if value == value and value is not None:  # nan != nan for some reason
+                if key == 'birthdate':
+                    row_dict[key] = date.fromisoformat(str(value))
+                elif key in ('phone', 'email', 'street', 'number', 'city'):
+                    row_dict[key] = str(value)
+                elif key == 'zip_code':
+                    row_dict[key] = int(value)
+            else:
+                row_dict[key] = None
 
         return Address(**row_dict)
 
-    def __open__(self):
+    def __enter__(self):
         self.open()
         return self
 
-    def __close__(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
         return None
 
@@ -193,75 +205,3 @@ if __name__ == "__main__":
                email='monika.fischer@example.com'))
     interface.save()
     interface.close()
-
-    # import unittest
-    # import random
-    # class TestCsvInterface(unittest.TestCase):
-    #
-    #     def setUp(self) -> None:
-    #         self.seed = random.randint(0, 1000)
-    #         self.interface = CsvInterface(rf"./csvTest{self.seed}.csv")
-    #
-    #     def shutDown(self) -> None:
-    #         self.interface = None
-    #         os.remove(f"./csvTest{self.seed}.csv")
-    #
-    #     def test_add_address(self):
-    #
-    #         a = self.interface.add_address(Address(lastname="Huber", firstname="Hans", street="Obere Bahnhofstra e", number="3", zip_code=70173, city="Stuttgart", birthdate="1990-01-01", phone="+49 711 1234 5678", email="hans.huber@exaample.de"))
-    #         b = self.interface.add_address(Address(lastname="Schmidt", firstname="J rgen", street="K nigstra e", number="1", zip_code=70173, city="Stuttgart", birthdate="1980-02-02", phone="+49 711 5678 9012", email="juergen.schmidt@example.de"))
-    #         c = self.interface.add_address(Address(lastname="Fischer", firstname="Monika", street="Marienplatz", number="2", zip_code=70173, city="Stuttgart", birthdate="1970-03-03", phone="+49 711 1234 5679", email="monika.fischer@example.com"))
-    #         d = self.interface.add_address(Address(lastname="TodaysBirthday", firstname="John", street="Today Street", number="1", zip_code=12345, city="Today City", birthdate=date.today(), phone="+49 176 1234 5678", email="john.doe@example.com"))
-    #
-    #         assert a == 0
-    #         assert b == 1
-    #         assert c == 2
-    #         assert d == 3
-    #
-    #     def test_expect_all(self):
-    #         result = self.interface.get_all()
-    #         assert result == [
-    #             Address(lastname="Huber", firstname="Hans", street="Obere Bahnhofstra e", number="3", zip_code=70173, city="Stuttgart", birthdate="1990-01-01", phone="+49 711 1234 5678", email="hans.huber@exaample.de"),
-    #             Address(lastname="Schmidt", firstname="J rgen", street="K nigstra e", number="1", zip_code=70173, city="Stuttgart", birthdate="1980-02-02", phone="+49 711 5678 9012", email="juergen.schmidt@example.de"),
-    #             Address(lastname="Fischer", firstname="Monika", street="Marienplatz", number="2", zip_code=70173, city="Stuttgart", birthdate="1970-03-03", phone="+49 711 1234 5679", email="monika.fischer@example.com"),
-    #             Address(lastname="TodaysBirthday", firstname="John", street="Today Street", number="1", zip_code=12345, city="Today City", birthdate=date.today(), phone="+49 176 1234 5678", email="john.doe@example.com")
-    #         ]
-    #
-    #
-    #     def test_get(self):
-    #         self.interface.get(0)
-    #         assert self.interface.get(0) == Address(lastname="Huber", firstname="Hans", street="Obere Bahnhofstra e", number="3", zip_code=70173, city="Stuttgart", birthdate="1990-01-01", phone="+49 711 1234 5678", email="hans.huber@exaample.de")
-    #
-    #     def test_reopen(self):
-    #         self.interface.close()
-    #         self.interface.open()
-    #         self.test_expect_all()
-    #
-    #     def test_update(self):
-    #         assert 0 == self.interface.update(
-    #             0,
-    #             lastname="Schmidt",
-    #             firstname="J rgen",
-    #             street="K nigstra e",
-    #             number="1",
-    #             zip_code=234643,
-    #             city="Belin",
-    #             birthdate="1980-02-10",
-    #             phone="+49 711 5678 9012",
-    #             email="juergen.schmidt@example.de"
-    #         )
-    #         new_address = self.interface.get(0)
-    #         assert new_address == Address(
-    #             lastname="Schmidt",
-    #             firstname="J rgen",
-    #             street="K nigstra e",
-    #             number="1",
-    #             zip_code=234643,
-    #             city="Belin",
-    #             birthdate="1980-02-10",
-    #             phone="+49 711 5678 9012",
-    #             email="juergen.schmidt@example.de")
-    #
-    #
-    #
-    # unittest.main()

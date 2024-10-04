@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.urls import path, include
 
-from .views import ServeVue
+from .views import ServeVue, ApiGetTables
 
 urlpatterns = [
     path("", ServeVue.as_view(), name="index"),
+    path("api/table/<str:source_id>", ApiGetTables.as_view(), name="table"),
 ]

@@ -22,6 +22,15 @@
             "justMyCode": true
         },
         {
+            "name": "TestCSV",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/webapp/tests/csv_test.py",
+            "cwd": "${workspaceFolder}}/webapp/",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Watch NPM",
             "type": "node-terminal",
             "cwd": "${workspaceFolder}/webapp/frontend/adress-database",

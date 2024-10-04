@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from address import Address
+from .address import Address
 
 
 class AddressDatabaseInterface(ABC):

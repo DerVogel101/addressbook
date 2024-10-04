@@ -1,8 +1,8 @@
 from typing import Optional
 
-from address_container_interface import AddressDatabaseInterface
-from sqlite_database import SqliteDatabase, SqlitePathError
-from address import Address
+from .address_container_interface import AddressDatabaseInterface
+from .sqlite_database import SqliteDatabase, SqlitePathError
+from .address import Address
 from datetime import date
 
 

@@ -14,6 +14,9 @@ export interface Address {
     birthdate: string | null
     phone: string | null
     email: string | null
+
+    // Index signature allowing dynamic access
+    [key: string]: any
 }
 
 export class SourceCoordinator {
@@ -25,7 +28,7 @@ export class SourceCoordinator {
         this.source = source
         if (source === "server") {
             console.log("fetch server data")
-            this.fetchServerData("server")
+            this.fetchServerData()
         }
     }
 
@@ -34,8 +37,8 @@ export class SourceCoordinator {
         this.source = null
     }
 
-    private fetchServerData(id: string): void {
-        fetch(`/api/table/${id}`).then((response) => {
+    private fetchServerData(): void {
+        fetch(`/api/table/${this.source}`).then((response) => {
             response.json().then((data) => {
                 this.data.value = data
             })
@@ -45,6 +48,33 @@ export class SourceCoordinator {
         return
     }
 
+    public deleateAddress(id: number): void {
+        fetch(`/api/edit/${this.source}/${id}`, {
+            method: 'DELETE'
+        }).then((response) => {
+            if (response.ok) {
+                this.fetchServerData()
+            }
+        }).catch((error) => {
+            alert(error)
+        })
+    }
+
+    public addOrUpdate(id: number | undefined, content: Address): void {
+        fetch(`/api/edit/${this.source}/${id === undefined ? "" : id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(content)
+        }).then((response) => {
+            if (response.ok) {
+                this.fetchServerData()
+            }
+        }).catch((error) => {
+            alert(error)
+        })
+    }
 }
 export function useSourceCoordinator(): SourceCoordinator {
     console.log("useSourceCoordinator")

@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.urls import path, include
 
-from .views import ServeVue, ApiGetTables
+from .views import ServeVue, ApiGetTables, ApiEditTable
 
 urlpatterns = [
     path("", ServeVue.as_view(), name="index"),
     path("api/table/<str:source_id>", ApiGetTables.as_view(), name="table"),
-]
+    path("api/edit/<str:source_id>/<int:address_id>", ApiEditTable.as_view(), name="edit"),
+    path("api/edit/<str:source_id>/", ApiEditTable.as_view(), name="create"),]
+

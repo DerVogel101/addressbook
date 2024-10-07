@@ -10,7 +10,7 @@ import random
 import shutil
 import os
 
-# # execute me from db_api with pytest -v tests/sqlite_test.py 
+# # execute me from project root with pytest -v tests/sqlite_test.py 
 class TestCsvInterface(unittest.TestCase):
 
     def setUp(self) -> None:

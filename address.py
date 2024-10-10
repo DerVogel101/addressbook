@@ -1,7 +1,6 @@
 from dataclasses import field
 from datetime import date
 from typing import Optional
-from no_touchy.muple import Muple
 from pydantic import field_validator, PositiveInt
 from pydantic.dataclasses import dataclass
 import re
@@ -65,6 +64,16 @@ class Address:
                 raise ValueError("Invalid phone number")
         except phonenumbers.phonenumberutil.NumberParseException:
             raise ValueError("Invalid phone number")
+
+    @field_validator("number")
+    def validate_number(cls, v) -> str | None:
+        if v is None:
+            return v
+        pattern = r"^\d+[a-zA-Z]?$"
+        if re.match(pattern, v):
+            return v
+        else:
+            raise ValueError("Invalid house number")
 
     def __str__(self):
         return (f"{self.lastname} {self.firstname}\n{self.street} {self.number} \n{self.zip_code} {self.city}\n"

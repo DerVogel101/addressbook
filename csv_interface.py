@@ -136,7 +136,7 @@ class CsvInterface(AddressDatabaseInterface):
         serialized_address = asdict(address)
         new_index = 0
         if self.__df_memory is not None and len(self.__df_memory.index) > 0:
-            new_index = self.__df_memory.index[-1] + 1
+            new_index = -~self.__df_memory.index[-1]
             self.__df_memory = pd.concat([self.__df_memory, pd.DataFrame(data=serialized_address, index=[new_index])])
         else:
             # conacat with None is deprecated thus:

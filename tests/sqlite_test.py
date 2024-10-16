@@ -14,7 +14,7 @@ import os
 class TestSqlInterface(unittest.TestCase):
 
     def setUp(self) -> None:
-        example_path = f"{os.path.realpath(__file__).strip(f'{__name__}.py')}ExampleSQLTest.db"
+        example_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "ExampleSQLTest.db")
         self.seed = random.randint(0, 1000)
         shutil.copyfile(example_path, rf"./sqlTest{self.seed}.db")
         self.interface = SqliteInterface(rf"./sqlTest{self.seed}.db")

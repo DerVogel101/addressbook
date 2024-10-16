@@ -7,8 +7,8 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-from .address import Address
-from .address_container_interface import AddressDatabaseInterface
+from address import Address
+from address_container_interface import AddressDatabaseInterface
 
 
 class CsvInterface(AddressDatabaseInterface):

@@ -1,0 +1,17 @@
+/* docs/source/_static/custom.css */
+html, body, .wy-nav-content {
+    height: 100%;
+}
+
+.rst-content {
+    max-width: 80%;
+}
+
+{ % extends "!theme.css" % }
+    .wy-nav-content {
+    padding: 1.618em 3.236em;
+    height: 100%;
+    max-width: 100%;
+    margin: auto;
+    }
+{% endblock %}

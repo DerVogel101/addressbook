@@ -6,10 +6,7 @@
 Birthday Database documentation
 ===============================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
-
+This is the documentation for the Birthday Database project.
 
 .. toctree::
    :maxdepth: 2
@@ -22,4 +19,3 @@ Indices and tables
 ==================
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`

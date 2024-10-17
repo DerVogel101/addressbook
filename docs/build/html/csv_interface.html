@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>csv_interface module &mdash; Birthday Database 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=05eea8f6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Search csv_interface" href="detailed_csv_search.html" />
+    <link rel="prev" title="context_support module" href="context_support.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Birthday Database
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Address Book Database</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="address.html">Address module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="address_container_interface.html">address_container_interface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context_support.html">context_support module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">csv_interface module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#csv_interface.CsvInterface"><code class="docutils literal notranslate"><span class="pre">CsvInterface</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.__enter__"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__enter__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.__exit__"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__exit__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.__init__"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.__iter__"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__iter__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.__require_df_memory"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__require_df_memory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.__series_to_address"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__series_to_address()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface._abc_impl"><code class="docutils literal notranslate"><span class="pre">CsvInterface._abc_impl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.add_address"><code class="docutils literal notranslate"><span class="pre">CsvInterface.add_address()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.close"><code class="docutils literal notranslate"><span class="pre">CsvInterface.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.delete"><code class="docutils literal notranslate"><span class="pre">CsvInterface.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.get"><code class="docutils literal notranslate"><span class="pre">CsvInterface.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.get_all"><code class="docutils literal notranslate"><span class="pre">CsvInterface.get_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.get_today_birthdays"><code class="docutils literal notranslate"><span class="pre">CsvInterface.get_today_birthdays()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.open"><code class="docutils literal notranslate"><span class="pre">CsvInterface.open()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.save"><code class="docutils literal notranslate"><span class="pre">CsvInterface.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.search"><code class="docutils literal notranslate"><span class="pre">CsvInterface.search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.set_path"><code class="docutils literal notranslate"><span class="pre">CsvInterface.set_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csv_interface.CsvInterface.update"><code class="docutils literal notranslate"><span class="pre">CsvInterface.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="detailed_csv_search.html">Search csv_interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite_database.html">sqlite_database module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite_interface.html">sqlite_interface module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Birthday Database</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Address Book Database</a></li>
+      <li class="breadcrumb-item active">csv_interface module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/csv_interface.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-csv_interface">
+<span id="csv-interface-module"></span><h1>csv_interface module<a class="headerlink" href="#module-csv_interface" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">csv_interface.</span></span><span class="sig-name descname"><span class="pre">CsvInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface" title="address_container_interface.AddressDatabaseInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">AddressDatabaseInterface</span></code></a></p>
+<p>A class to interface with a CSV file for storing and retrieving address data.
+Handles reads, writes, and queries from/to a CSV file.
+It is also possible to use ths class without a CSV file, by simpliy interacting
+with the class without opening/saving to a file.
+The class inherits from <code class="xref py py-class docutils literal notranslate"><span class="pre">AddressDatabaseInterface</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> | </em><em>None</em>) – The path to the CSV file.</p>
+</dd>
+</dl>
+<section id="methods">
+<h2>Methods:<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#csv_interface.CsvInterface" title="csv_interface.CsvInterface"><span class="pre">CsvInterface</span></a></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.__enter__" title="Link to this definition"></a></dt>
+<dd><p>Enters the runtime context related to this object.
+This function is a warper for <a class="reference internal" href="#csv_interface.CsvInterface.open" title="csv_interface.CsvInterface.open"><code class="xref py py-func docutils literal notranslate"><span class="pre">open()</span></code></a> and not technically needed,
+for all files get closed imideatly after a read/write. It just enables the use
+of <code class="code docutils literal notranslate"><span class="pre">with</span> <span class="pre">CsvInterface</span> <span class="pre">...</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The instance itself.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#csv_interface.CsvInterface" title="csv_interface.CsvInterface">CsvInterface</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_tb</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.__exit__" title="Link to this definition"></a></dt>
+<dd><p>See <a class="reference internal" href="#csv_interface.CsvInterface.__enter__" title="csv_interface.CsvInterface.__enter__"><code class="xref py py-func docutils literal notranslate"><span class="pre">__enter__()</span></code></a>. Calls <a class="reference internal" href="#csv_interface.CsvInterface.close" title="csv_interface.CsvInterface.close"><code class="xref py py-func docutils literal notranslate"><span class="pre">close()</span></code></a>, therefore
+saving the current object to the file and resetting it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exc_type</strong></p></li>
+<li><p><strong>exc_val</strong></p></li>
+<li><p><strong>exc_tb</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the CsvInterface.
+If a path is given, it is set and the file at the path gets opened
+loading its content as into object memory (in <cite>__df_memory</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em>, </em><em>optional</em>) – the path to the CSV file</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#csv_interface.CsvInterface" title="csv_interface.CsvInterface">CsvInterface</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#csv_interface.CsvInterface" title="csv_interface.CsvInterface"><span class="pre">CsvInterface</span></a></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.__iter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.__iter__" title="Link to this definition"></a></dt>
+<dd><p>Turns the object istself in to an iteratable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The object itself, with an index set to 0</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#csv_interface.CsvInterface" title="csv_interface.CsvInterface">CsvInterface</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.__require_df_memory">
+<span class="sig-name descname"><span class="pre">__require_df_memory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="headerlink" href="#csv_interface.CsvInterface.__require_df_memory" title="Link to this definition"></a></dt>
+<dd><p>Class-specific decorator.
+Ensures that the object memory (<code class="xref py py-attr docutils literal notranslate"><span class="pre">__df_memory</span></code>) is not None
+before calling the decorated function.
+If it is, a default value based on the function name is returne by the wrappe,
+instead of calling the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>func</strong> (<em>Callable</em>) – the function to be decorated</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">wapper()</span></code> which can return any</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.__series_to_address">
+<span class="sig-name descname"><span class="pre">__series_to_address</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="address.html#address.Address" title="address.Address"><span class="pre">Address</span></a></span></span><a class="headerlink" href="#csv_interface.CsvInterface.__series_to_address" title="Link to this definition"></a></dt>
+<dd><p>Converts a <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code> to an <code class="xref py py-class docutils literal notranslate"><span class="pre">Address</span></code>, ensuring all types are correct.
+Fails if the data series has an unexpected structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>series</strong> (<em>pd.Series</em>) – the data series to convert</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the converted series as <code class="xref py py-class docutils literal notranslate"><span class="pre">Address</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="address.html#address.Address" title="address.Address">Address</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#csv_interface.CsvInterface._abc_impl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.add_address">
+<span class="sig-name descname"><span class="pre">add_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="address.html#address.Address" title="address.Address"><span class="pre">Address</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.add_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.add_address" title="Link to this definition"></a></dt>
+<dd><p>Adds a new address to the objects memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>address</strong> (<a class="reference internal" href="address.html#address.Address" title="address.Address"><em>Address</em></a>) – the <code class="xref py py-class docutils literal notranslate"><span class="pre">Address</span></code> to add</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the ID that was assigned to the newly added address</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.close" title="Link to this definition"></a></dt>
+<dd><p>Saves the current object memory to the file and then closes the CSV file.
+After this methode, the object is in an empty state with only the path set.
+A new path may be set or the file may be re-opened.</p>
+<p>See <a class="reference internal" href="#csv_interface.CsvInterface.save" title="csv_interface.CsvInterface.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">save()</span></code></a> for possible exceptions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id__</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.delete" title="Link to this definition"></a></dt>
+<dd><p>Decorated by <a class="reference internal" href="#csv_interface.CsvInterface.__require_df_memory" title="csv_interface.CsvInterface.__require_df_memory"><code class="xref py py-func docutils literal notranslate"><span class="pre">__require_df_memory()</span></code></a>.
+Deletes the address with the given ID from objects memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>int</em>) – ID of the Address to delete</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ID of the deleted address, or None if not found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id__</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="address.html#address.Address" title="address.Address"><span class="pre">Address</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.get" title="Link to this definition"></a></dt>
+<dd><p>Decorated by <a class="reference internal" href="#csv_interface.CsvInterface.__require_df_memory" title="csv_interface.CsvInterface.__require_df_memory"><code class="xref py py-func docutils literal notranslate"><span class="pre">__require_df_memory()</span></code></a>.
+Retrieves an address by its ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>int</em>) – ID of the Address to return</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Address</span></code> if an Address with the given id exists else None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="address.html#address.Address" title="address.Address">Address</a> | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.get_all">
+<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="address.html#address.Address" title="address.Address"><span class="pre">Address</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.get_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.get_all" title="Link to this definition"></a></dt>
+<dd><p>Decorated by <a class="reference internal" href="#csv_interface.CsvInterface.__require_df_memory" title="csv_interface.CsvInterface.__require_df_memory"><code class="xref py py-func docutils literal notranslate"><span class="pre">__require_df_memory()</span></code></a>.
+Fetches all addresses from object memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictonary with the key beeing the ID of the Address in the object memory</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[int, <a class="reference internal" href="address.html#address.Address" title="address.Address">Address</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.get_today_birthdays">
+<span class="sig-name descname"><span class="pre">get_today_birthdays</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="address.html#address.Address" title="address.Address"><span class="pre">Address</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.get_today_birthdays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.get_today_birthdays" title="Link to this definition"></a></dt>
+<dd><p>Decorated by <a class="reference internal" href="#csv_interface.CsvInterface.__require_df_memory" title="csv_interface.CsvInterface.__require_df_memory"><code class="xref py py-func docutils literal notranslate"><span class="pre">__require_df_memory()</span></code></a>.
+Fetches all addresses with today’s date as their birthday.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary with the id and values of all address that have today set as their birthday</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[int, <a class="reference internal" href="address.html#address.Address" title="address.Address">Address</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.open" title="Link to this definition"></a></dt>
+<dd><p>Reads the CSV file at the path set in <a class="reference internal" href="#csv_interface.CsvInterface.set_path" title="csv_interface.CsvInterface.set_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_path()</span></code></a>
+or during construction into object memory (as class:<cite>pd.dataframes</cite> in <code class="xref py py-attr docutils literal notranslate"><span class="pre">__df_memory</span></code>).
+While reading, the types of some columns in the csv fiele will get manualy converted,
+ensureing correct types in the object memory. If this conversion fails, the provided file is
+unusable and an exception occurs.
+After reading, the functuion will immediately closes the file.</p>
+<p>Note: The function dose not verify the integrety of the whole file, thus when providing an invalid file
+errors may occure, other methodes, even after successfully loading the content into object memory.</p>
+<p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">std.open()</span></code> for all errors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>IsADirectoryError</strong> – if the path is a directory</p></li>
+<li><p><strong>KeyError</strong> – if the file could be opened, but its content is invalid</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None, if successful.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.save" title="Link to this definition"></a></dt>
+<dd><p>Saves the object memory into the CSV file at the path set in <a class="reference internal" href="#csv_interface.CsvInterface.set_path" title="csv_interface.CsvInterface.set_path"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_path()</span></code></a> or during object creation.
+The file is opened in ‘a+’ mode.</p>
+<p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">std.open()</span></code> for possible exceptions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None, if saved successfully</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.search">
+<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="address.html#address.Address" title="address.Address"><span class="pre">Address</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.search" title="Link to this definition"></a></dt>
+<dd><p>Decorated by <a class="reference internal" href="#csv_interface.CsvInterface.__require_df_memory" title="csv_interface.CsvInterface.__require_df_memory"><code class="xref py py-func docutils literal notranslate"><span class="pre">__require_df_memory()</span></code></a>.
+Searches for addresses that match the search string.
+The query can inclued any field of Address but should only include one.
+See <a class="reference external" href="detailed_csv_search.html">detailed_csv_search</a> for more information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>search_string</strong> (<em>str</em>) – The search term to look for</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a dictionary of {ID: <code class="xref py py-class docutils literal notranslate"><span class="pre">Address</span></code>} with all Addresses matchin the query.
+Empty if no matches where found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, <a class="reference internal" href="address.html#address.Address" title="address.Address">Address</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.set_path">
+<span class="sig-name descname"><span class="pre">set_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.set_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.set_path" title="Link to this definition"></a></dt>
+<dd><p>Sets the path to the CSV file, checking if the path is valid.
+Changing the path to another file after reading from one is supported.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – the path to the CSV file</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – if the path is invalid</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None, if successful</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="csv_interface.CsvInterface.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id__</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/csv_interface.html#CsvInterface.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#csv_interface.CsvInterface.update" title="Link to this definition"></a></dt>
+<dd><p>Decorated by <a class="reference internal" href="#csv_interface.CsvInterface.__require_df_memory" title="csv_interface.CsvInterface.__require_df_memory"><code class="xref py py-func docutils literal notranslate"><span class="pre">__require_df_memory()</span></code></a>
+Updates an address by its ID using the provided kwargs.
+Known keys are all fields in <code class="xref py py-class docutils literal notranslate"><span class="pre">Address</span></code>. All unknown keys will be ignored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – the ID of the address to update</p></li>
+<li><p><strong>kwargs</strong> (<em>any</em>) – key-value pairs of a field in address and its new value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – if the given ID in not associated with any address</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the ID of the updated address</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="detailed_csv_search.html">Search csv_interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="detailed_csv_search.html#implementierung-der-suchfunktion">Implementierung der Suchfunktion</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="context_support.html" class="btn btn-neutral float-left" title="context_support module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="detailed_csv_search.html" class="btn btn-neutral float-right" title="Search csv_interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Katzenkralle, DerVogel101.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

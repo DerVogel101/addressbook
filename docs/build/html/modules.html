@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Address Book Database &mdash; Birthday Database 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=05eea8f6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Address module" href="address.html" />
+    <link rel="prev" title="Introduction" href="readme.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Birthday Database
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Address Book Database</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="address.html">Address module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="address_container_interface.html">address_container_interface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context_support.html">context_support module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csv_interface.html">csv_interface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite_database.html">sqlite_database module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite_interface.html">sqlite_interface module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Birthday Database</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Address Book Database</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="address-book-database">
+<h1>Address Book Database<a class="headerlink" href="#address-book-database" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="address.html">Address module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="address.html#usage-example">Usage Example:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="address.html#address.Address"><code class="docutils literal notranslate"><span class="pre">Address</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.__str__"><code class="docutils literal notranslate"><span class="pre">Address.__str__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.birthdate"><code class="docutils literal notranslate"><span class="pre">Address.birthdate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.city"><code class="docutils literal notranslate"><span class="pre">Address.city</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.email"><code class="docutils literal notranslate"><span class="pre">Address.email</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.firstname"><code class="docutils literal notranslate"><span class="pre">Address.firstname</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.lastname"><code class="docutils literal notranslate"><span class="pre">Address.lastname</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.number"><code class="docutils literal notranslate"><span class="pre">Address.number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.phone"><code class="docutils literal notranslate"><span class="pre">Address.phone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.street"><code class="docutils literal notranslate"><span class="pre">Address.street</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.validate_email"><code class="docutils literal notranslate"><span class="pre">Address.validate_email()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.validate_number"><code class="docutils literal notranslate"><span class="pre">Address.validate_number()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.validate_phone"><code class="docutils literal notranslate"><span class="pre">Address.validate_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="address.html#address.Address.zip_code"><code class="docutils literal notranslate"><span class="pre">Address.zip_code</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="address_container_interface.html">address_container_interface module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface._abc_impl"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface._abc_impl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.add_address"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.add_address()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.close"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.delete"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.get"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.get_all"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.get_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.get_today_birthdays"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.get_today_birthdays()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.open"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.save"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.search"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.search()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.set_path"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.set_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface.update"><code class="docutils literal notranslate"><span class="pre">AddressDatabaseInterface.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="context_support.html">context_support module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="context_support.html#context_support.ContextSupport"><code class="docutils literal notranslate"><span class="pre">ContextSupport</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="context_support.html#context_support.ContextSupport.__enter__"><code class="docutils literal notranslate"><span class="pre">ContextSupport.__enter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="context_support.html#context_support.ContextSupport.__exit__"><code class="docutils literal notranslate"><span class="pre">ContextSupport.__exit__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="context_support.html#context_support.ContextSupport.__init__"><code class="docutils literal notranslate"><span class="pre">ContextSupport.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="csv_interface.html">csv_interface module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface"><code class="docutils literal notranslate"><span class="pre">CsvInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.__enter__"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__enter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.__exit__"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__exit__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.__init__"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.__iter__"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__iter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.__require_df_memory"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__require_df_memory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.__series_to_address"><code class="docutils literal notranslate"><span class="pre">CsvInterface.__series_to_address()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface._abc_impl"><code class="docutils literal notranslate"><span class="pre">CsvInterface._abc_impl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.add_address"><code class="docutils literal notranslate"><span class="pre">CsvInterface.add_address()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.close"><code class="docutils literal notranslate"><span class="pre">CsvInterface.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.delete"><code class="docutils literal notranslate"><span class="pre">CsvInterface.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.get"><code class="docutils literal notranslate"><span class="pre">CsvInterface.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.get_all"><code class="docutils literal notranslate"><span class="pre">CsvInterface.get_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.get_today_birthdays"><code class="docutils literal notranslate"><span class="pre">CsvInterface.get_today_birthdays()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.open"><code class="docutils literal notranslate"><span class="pre">CsvInterface.open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.save"><code class="docutils literal notranslate"><span class="pre">CsvInterface.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.search"><code class="docutils literal notranslate"><span class="pre">CsvInterface.search()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.set_path"><code class="docutils literal notranslate"><span class="pre">CsvInterface.set_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv_interface.html#csv_interface.CsvInterface.update"><code class="docutils literal notranslate"><span class="pre">CsvInterface.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="detailed_csv_search.html">Search csv_interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="detailed_csv_search.html#implementierung-der-suchfunktion">Implementierung der Suchfunktion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sqlite_database.html">sqlite_database module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase.__init__"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase.add"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase.add()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase.close"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase.delete"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase.get_all"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase.get_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase.get_where"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase.get_where()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase.open"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase.open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase.save"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase.search"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase.search()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase.update"><code class="docutils literal notranslate"><span class="pre">SqliteDatabase.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite_database.html#sqlite_database.SqlitePathError"><code class="docutils literal notranslate"><span class="pre">SqlitePathError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite_database.html#sqlite_database.create_table"><code class="docutils literal notranslate"><span class="pre">create_table()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite_database.html#sqlite_database.save_to_sqlite"><code class="docutils literal notranslate"><span class="pre">save_to_sqlite()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="detailed_sql_search.html">Search from sqlite_database</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sqlite_interface.html">sqlite_interface module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface"><code class="docutils literal notranslate"><span class="pre">SqliteInterface</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.__enter__"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.__enter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.__exit__"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.__exit__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.__init__"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.__iter__"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.__iter__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface._abc_impl"><code class="docutils literal notranslate"><span class="pre">SqliteInterface._abc_impl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.add_address"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.add_address()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.close"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.delete"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.get"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.get_all"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.get_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.get_today_birthdays"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.get_today_birthdays()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.open"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.save"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.search"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.search()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.set_path"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.set_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlite_interface.html#sqlite_interface.SqliteInterface.update"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="readme.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="address.html" class="btn btn-neutral float-right" title="Address module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Katzenkralle, DerVogel101.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

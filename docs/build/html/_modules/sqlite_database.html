@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sqlite_database &mdash; Birthday Database 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=05eea8f6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Birthday Database
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Address Book Database</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Birthday Database</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sqlite_database</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sqlite_database</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">closing</span>
+<span class="kn">from</span> <span class="nn">address</span> <span class="kn">import</span> <span class="n">Address</span>
+
+
+<div class="viewcode-block" id="create_table">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.create_table">[docs]</a>
+<span class="k">def</span> <span class="nf">create_table</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create the addresses table in the SQLite database if it does not exist.</span>
+
+<span class="sd">    This function connects to the SQLite database specified by &#39;addresses.sqlite3&#39; and creates a table named &#39;addresses&#39;</span>
+<span class="sd">    with the following columns:</span>
+<span class="sd">    - id: INTEGER PRIMARY KEY AUTOINCREMENT</span>
+<span class="sd">    - lastname: TEXT</span>
+<span class="sd">    - firstname: TEXT</span>
+<span class="sd">    - street: TEXT</span>
+<span class="sd">    - number: TEXT</span>
+<span class="sd">    - zip_code: INTEGER</span>
+<span class="sd">    - city: TEXT</span>
+<span class="sd">    - birthdate: TEXT</span>
+<span class="sd">    - phone: TEXT</span>
+<span class="sd">    - email: TEXT</span>
+
+<span class="sd">    The combination of lastname, firstname, street, number, zip_code, city, and birthdate must be unique.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">closing</span><span class="p">(</span><span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;addresses.sqlite3&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">conn</span><span class="p">:</span>
+            <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                CREATE TABLE IF NOT EXISTS addresses (</span>
+<span class="s2">                    id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s2">                    lastname TEXT,</span>
+<span class="s2">                    firstname TEXT,</span>
+<span class="s2">                    street TEXT,</span>
+<span class="s2">                    number TEXT,</span>
+<span class="s2">                    zip_code INTEGER,</span>
+<span class="s2">                    city TEXT,</span>
+<span class="s2">                    birthdate TEXT,</span>
+<span class="s2">                    phone TEXT,</span>
+<span class="s2">                    email TEXT,</span>
+<span class="s2">                    UNIQUE(lastname, firstname, street, number, zip_code, city, birthdate)</span>
+<span class="s2">                )</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="save_to_sqlite">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.save_to_sqlite">[docs]</a>
+<span class="k">def</span> <span class="nf">save_to_sqlite</span><span class="p">(</span><span class="n">addresses</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save a list of addresses to the SQLite database.</span>
+
+<span class="sd">    This function inserts each address in the provided list into the &#39;addresses&#39; table in the SQLite database.</span>
+<span class="sd">    If an address already exists (based on the unique constraint), it will be skipped.</span>
+
+<span class="sd">    :param addresses: List of Address objects to save</span>
+<span class="sd">    :type addresses: list</span>
+<span class="sd">    :return: List of IDs of the inserted addresses</span>
+<span class="sd">    :rtype: list[int]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="n">closing</span><span class="p">(</span><span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;addresses.sqlite3&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">addresses</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                    INSERT INTO addresses (lastname, firstname, street, number, zip_code, city, birthdate, phone, email)</span>
+<span class="s2">                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">address</span><span class="o">.</span><span class="n">lastname</span><span class="p">,</span> <span class="n">address</span><span class="o">.</span><span class="n">firstname</span><span class="p">,</span> <span class="n">address</span><span class="o">.</span><span class="n">street</span><span class="p">,</span> <span class="n">address</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">address</span><span class="o">.</span><span class="n">zip_code</span><span class="p">,</span> <span class="n">address</span><span class="o">.</span><span class="n">city</span><span class="p">,</span> <span class="n">address</span><span class="o">.</span><span class="n">birthdate</span><span class="p">,</span> <span class="n">address</span><span class="o">.</span><span class="n">phone</span><span class="p">,</span> <span class="n">address</span><span class="o">.</span><span class="n">email</span><span class="p">))</span>
+                <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duplicate entry found: </span><span class="si">{</span><span class="n">address</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ids</span></div>
+
+
+
+<div class="viewcode-block" id="SqlitePathError">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqlitePathError">[docs]</a>
+<span class="k">class</span> <span class="nc">SqlitePathError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised for errors in the SQLite database path.</span>
+
+<span class="sd">    This exception is raised when there is an issue with the path to the SQLite database file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="SqliteDatabase">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase">[docs]</a>
+<span class="k">class</span> <span class="nc">SqliteDatabase</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for interacting with an SQLite database.</span>
+
+<span class="sd">    This class provides methods to open, close, and interact with an SQLite database specified by the given path.</span>
+
+<span class="sd">    :ivar __path: Path to the SQLite database file</span>
+<span class="sd">    :vartype __path: str</span>
+<span class="sd">    :ivar __conn: Connection to the SQLite database</span>
+<span class="sd">    :vartype __conn: sqlite3.Connection | None</span>
+<span class="sd">    :param path: Path to the SQLite database file</span>
+<span class="sd">    :type path: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SqliteDatabase.__init__">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the SqliteDatabase instance.</span>
+
+<span class="sd">        :param path: Path to the SQLite database file</span>
+<span class="sd">        :type path: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span><span class="p">:</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Connection</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="SqliteDatabase.open">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase.open">[docs]</a>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open a connection to the SQLite database.</span>
+
+<span class="sd">        This method attempts to open a connection to the SQLite database specified by the path.</span>
+<span class="sd">        If the database cannot be opened, a SqlitePathError is raised.</span>
+
+<span class="sd">        :raises SqlitePathError: If the database cannot be opened</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">OperationalError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">SqlitePathError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not open database at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            CREATE TABLE IF NOT EXISTS addresses (</span>
+<span class="s2">                id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s2">                lastname TEXT,</span>
+<span class="s2">                firstname TEXT,</span>
+<span class="s2">                street TEXT,</span>
+<span class="s2">                number TEXT,</span>
+<span class="s2">                zip_code INTEGER,</span>
+<span class="s2">                city TEXT,</span>
+<span class="s2">                birthdate TEXT,</span>
+<span class="s2">                phone TEXT,</span>
+<span class="s2">                email TEXT,</span>
+<span class="s2">                UNIQUE(lastname, firstname, street, number, zip_code, city, birthdate)</span>
+<span class="s2">            )</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SqliteDatabase.close">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase.close">[docs]</a>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Close the connection to the SQLite database.</span>
+
+<span class="sd">        This method closes the connection to the SQLite database if it is open.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SqliteDatabase.save">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Commit the current transaction to the SQLite database.</span>
+
+<span class="sd">        This method commits any pending transaction to the SQLite database.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SqliteDatabase.add">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase.add">[docs]</a>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address_obj</span><span class="p">:</span> <span class="n">Address</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a new address to the SQLite database.</span>
+
+<span class="sd">        This method inserts a new address into the &#39;addresses&#39; table in the SQLite database.</span>
+
+<span class="sd">        :param address_obj: Address object to add</span>
+<span class="sd">        :type address_obj: Address</span>
+<span class="sd">        :return: ID of the added address</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                INSERT INTO addresses (lastname, firstname, street, number, zip_code, city, birthdate, phone, email)</span>
+<span class="s2">                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">address_obj</span><span class="o">.</span><span class="n">lastname</span><span class="p">,</span> <span class="n">address_obj</span><span class="o">.</span><span class="n">firstname</span><span class="p">,</span> <span class="n">address_obj</span><span class="o">.</span><span class="n">street</span><span class="p">,</span> <span class="n">address_obj</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">address_obj</span><span class="o">.</span><span class="n">zip_code</span><span class="p">,</span> <span class="n">address_obj</span><span class="o">.</span><span class="n">city</span><span class="p">,</span> <span class="n">address_obj</span><span class="o">.</span><span class="n">birthdate</span><span class="p">,</span> <span class="n">address_obj</span><span class="o">.</span><span class="n">phone</span><span class="p">,</span> <span class="n">address_obj</span><span class="o">.</span><span class="n">email</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid entry found: </span><span class="si">{</span><span class="n">address_obj</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                  <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span></div>
+
+
+<div class="viewcode-block" id="SqliteDatabase.get_where">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase.get_where">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_where</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">where_clause</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve addresses from the SQLite database that match the given where clause.</span>
+
+<span class="sd">        This method executes a SELECT query with the provided where clause and returns the matching addresses.</span>
+
+<span class="sd">        :param where_clause: SQL where clause to filter addresses</span>
+<span class="sd">        :type where_clause: str</span>
+<span class="sd">        :return: List of dictionaries representing the matching addresses</span>
+<span class="sd">        :rtype: list[dict]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Row</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT * FROM addresses WHERE </span><span class="si">{</span><span class="n">where_clause</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="SqliteDatabase.get_all">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase.get_all">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve all addresses from the SQLite database.</span>
+
+<span class="sd">        This method executes a SELECT query to retrieve all addresses from the &#39;addresses&#39; table.</span>
+
+<span class="sd">        :return: List of dictionaries representing all addresses</span>
+<span class="sd">        :rtype: list[dict]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Row</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT * FROM addresses</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="SqliteDatabase.delete">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase.delete">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete an address from the SQLite database by its ID.</span>
+
+<span class="sd">        This method deletes the address with the specified ID from the &#39;addresses&#39; table.</span>
+
+<span class="sd">        :param row_id: ID of the address to delete</span>
+<span class="sd">        :type row_id: int</span>
+<span class="sd">        :return: ID of the deleted address if found, else None</span>
+<span class="sd">        :rtype: int | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            DELETE FROM addresses WHERE id = ?</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">row_id</span><span class="p">,))</span>
+        <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">rowcount</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">row_id</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="SqliteDatabase.search">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase.search">[docs]</a>
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search for addresses in the SQLite database that match the search string.</span>
+
+<span class="sd">        This method executes a SELECT query to search for addresses that match the provided search string in any of the</span>
+<span class="sd">        address fields.</span>
+
+<span class="sd">        For more details, see `detailed_sql_search &lt;detailed_sql_search.html&gt;`_.</span>
+
+<span class="sd">        :param search_string: String to search for</span>
+<span class="sd">        :type search_string: str</span>
+<span class="sd">        :return: List of dictionaries representing the matching addresses</span>
+<span class="sd">        :rtype: list[dict]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Row</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT * FROM addresses WHERE</span>
+<span class="s2">            lastname LIKE ? OR</span>
+<span class="s2">            firstname LIKE ? OR</span>
+<span class="s2">            street LIKE ? OR</span>
+<span class="s2">            number LIKE ? OR</span>
+<span class="s2">            zip_code LIKE ? OR</span>
+<span class="s2">            city LIKE ? OR</span>
+<span class="s2">            birthdate LIKE ? OR</span>
+<span class="s2">            phone LIKE ? OR</span>
+<span class="s2">            email LIKE ?</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;%</span><span class="si">{</span><span class="n">search_string</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">9</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SqliteDatabase.update">
+<a class="viewcode-back" href="../sqlite_database.html#sqlite_database.SqliteDatabase.update">[docs]</a>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an address in the SQLite database by its ID.</span>
+
+<span class="sd">        This method updates the address with the specified ID in the &#39;addresses&#39; table with the provided fields.</span>
+
+<span class="sd">        :param row_id: ID of the address to update</span>
+<span class="sd">        :type row_id: int</span>
+<span class="sd">        :param kwargs: Fields to update</span>
+<span class="sd">        :return: ID of the updated address if found, else None</span>
+<span class="sd">        :rtype: int | None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">previous</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_where</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;id = </span><span class="si">{</span><span class="n">row_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">previous</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            UPDATE addresses SET</span>
+<span class="s2">            lastname = ?,</span>
+<span class="s2">            firstname = ?,</span>
+<span class="s2">            street = ?,</span>
+<span class="s2">            number = ?,</span>
+<span class="s2">            zip_code = ?,</span>
+<span class="s2">            city = ?,</span>
+<span class="s2">            birthdate = ?,</span>
+<span class="s2">            phone = ?,</span>
+<span class="s2">            email = ?</span>
+<span class="s2">            WHERE id = ?</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">previous</span><span class="p">[</span><span class="s1">&#39;lastname&#39;</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="s1">&#39;firstname&#39;</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="s1">&#39;street&#39;</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="s1">&#39;zip_code&#39;</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="s1">&#39;city&#39;</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="s1">&#39;birthdate&#39;</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="s1">&#39;phone&#39;</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">],</span> <span class="n">row_id</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">cursor</span><span class="o">.</span><span class="n">rowcount</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">row_id</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">create_table</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="n">lastname</span><span class="o">=</span><span class="s2">&quot;ADoe&quot;</span><span class="p">,</span> <span class="n">firstname</span><span class="o">=</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="n">street</span><span class="o">=</span><span class="s2">&quot;Main Street&quot;</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="s2">&quot;123&quot;</span><span class="p">,</span> <span class="n">zip_code</span><span class="o">=</span><span class="mi">12345</span><span class="p">,</span>
+                      <span class="n">city</span><span class="o">=</span><span class="s2">&quot;Springfield&quot;</span><span class="p">,</span> <span class="n">birthdate</span><span class="o">=</span><span class="s2">&quot;2000-01-01&quot;</span><span class="p">,</span> <span class="n">phone</span><span class="o">=</span><span class="s2">&quot;+49 176 1234 5678&quot;</span><span class="p">,</span>
+                      <span class="n">email</span><span class="o">=</span><span class="s2">&quot;john.doe@doe-mail.io&quot;</span><span class="p">)</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="n">save_to_sqlite</span><span class="p">([</span><span class="n">address</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inserted IDs: </span><span class="si">{</span><span class="n">ids</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Katzenkralle, DerVogel101.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -17,14 +17,14 @@ class SqliteInterface(AddressDatabaseInterface):
     :ivar __connection_open: Flag indicating whether the database connection is open.
     :vartype __connection_open: bool
     :param path: Optional path to the SQLite database file.
-    :type path: Optional[str]
+    :type path: str, optional
     """
     def __init__(self, path: Optional[str] = None):
         """
         Initialize the SqliteInterface instance.
 
         :param path: Optional path to the SQLite database file.
-        :type path: Optional[str]
+        :type path: str, optional
         """
         self.__sql_path: str | None = path
         self.__squirrel_lite: SqliteDatabase | None = None

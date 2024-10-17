@@ -84,6 +84,10 @@ class SqliteDatabase:
 
     This class provides methods to open, close, and interact with an SQLite database specified by the given path.
 
+    :ivar __path: Path to the SQLite database file
+    :vartype __path: str
+    :ivar __conn: Connection to the SQLite database
+    :vartype __conn: sqlite3.Connection | None
     :param path: Path to the SQLite database file
     :type path: str
     """
@@ -229,6 +233,8 @@ class SqliteDatabase:
 
         This method executes a SELECT query to search for addresses that match the provided search string in any of the
         address fields.
+
+        For more details, see `detailed_sql_search <detailed_sql_search.html>`_.
 
         :param search_string: String to search for
         :type search_string: str

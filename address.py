@@ -1,25 +1,3 @@
-"""
-
-This module defines the `Address` dataclass, which represents an address with various fields such as lastname, firstname, street, number, zip code, city, birthdate, phone, and email. It includes validation for email, phone, and house number fields.
-
-Usage Example:
---------------
-    .. code-block:: python
-
-        example = Address(
-            lastname="Doe",
-            firstname="John",
-            street="Main Street",
-            number="1",
-            zip_code=12345,
-            city="Springfield",
-            birthdate="2000-01-01",
-            phone="+49 176 1234 5678",
-            email="john.doe@example.com"
-        )
-        print(example)
-"""
-
 from dataclasses import field
 from datetime import date
 from typing import Optional
@@ -58,8 +36,8 @@ class Address:
     :func:`validate_phone` Validates the phone number format.
 
     :func:`validate_number` Validates the house number format.
-    
-    :func:`__str__` Returns a string representation of the address.     
+
+    :func:`__str__` Returns a string representation of the address.
     """
 
     lastname: str
@@ -98,11 +76,14 @@ class Address:
     def validate_phone(cls, v) -> str | None:
         """
         Validates the phone number format.
+        The phone number must be a valid international phone number.
+
+        .. todo:: Sometimes the phone number shows as valid even if it is not.
 
         :param v: The phone number to validate.
         :type v: str
 
-        :returns: The validated phone number or None if not provided.
+        :return: The validated phone number or None if not provided.
         :rtype: str | None
 
         :raises ValueError: If the phone number is invalid.
@@ -123,6 +104,7 @@ class Address:
     def validate_number(cls, v) -> str | None:
         """
         Validates the house number format.
+        Accepts House numbers seen in Germany, e.g. 1, 1a, 1A, 1b, 1B, etc.
 
         :param v: The house number to validate.
         :type v: str
@@ -145,7 +127,7 @@ class Address:
         """
         Returns a string representation of the address.
 
-        :returns: A string representation of the address.
+        :return: A string representation of the address.
         :rtype: str
         """
 

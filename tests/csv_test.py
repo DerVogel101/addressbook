@@ -1,5 +1,5 @@
-from ..address import Address
-from ..csv_interface import CsvInterface
+from address import Address
+from csv_interface import CsvInterface
 
 from datetime import date
 from pydantic import ValidationError
@@ -94,7 +94,7 @@ class TestCsvInterface(unittest.TestCase):
                                  email="hans.huber@exaample.de"))
 
     def test_update(self):
-        self.assertEqual(0, self.interface.update(
+        val = self.interface.update(
             0,
             lastname="Schmidt",
             firstname="J rgen",
@@ -105,7 +105,8 @@ class TestCsvInterface(unittest.TestCase):
             birthdate="1980-02-10",
             phone="+49 711 5678 9012",
             email="juergen.schmidt@example.de"
-        ))
+        )
+        self.assertEqual(0, val)
         new_address = self.interface.get(0)
         self.assertEqual(new_address, Address(lastname="Schmidt", firstname="J rgen", street="K nigstra e", number="1",
                                               zip_code=234643, city="Belin", birthdate="1980-02-10",

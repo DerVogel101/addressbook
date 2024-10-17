@@ -14,3 +14,10 @@ The following features are implemented:
     - Update a specific Entry by id
     - Add a new Entry
     - Get the Birthday of the current day
+
+The UML Diagram of the Project is as follows:
+---------------------------------------------
+
+.. image:: ./_static/database_uml.png
+    :alt: UML Diagram
+    :align: center

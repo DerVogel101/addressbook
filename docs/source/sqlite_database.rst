@@ -6,3 +6,6 @@ sqlite\_database module
    :undoc-members:
    :show-inheritance:
    :special-members: __init__
+
+.. toctree::
+    detailed_sql_search

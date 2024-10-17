@@ -1,11 +1,10 @@
 import os
 import re
-from dataclasses import asdict, fields
+from dataclasses import asdict
 from datetime import date
 from pathlib import Path
 
 import pandas as pd
-import numpy as np
 from typing import Callable
 
 from address import Address
@@ -28,7 +27,7 @@ class CsvInterface(AddressDatabaseInterface):
     ########
     """
 
-    def __init__(self, path: str | None) -> 'CsvInterface':
+    def __init__(self, path: str | None):
         """
         Initializes the CsvInterface. 
         If a path is given, it is set and the file at the path gets opened
@@ -44,7 +43,6 @@ class CsvInterface(AddressDatabaseInterface):
         if path is not None:
             self.set_path(path)
             self.open()
-        return self
 
     @staticmethod
     def __require_df_memory(func: Callable) -> Callable:
@@ -188,20 +186,20 @@ class CsvInterface(AddressDatabaseInterface):
         return addresses
 
     @__require_df_memory
-    def get(self, id: int) -> Address | None:
+    def get(self, id__: int) -> Address | None:
         """
         Decorated by :func:`__require_df_memory`.
         Retrieves an address by its ID.
 
-        :param id: ID of the Address to return
-        :type id: int
+        :param id__: ID of the Address to return
+        :type id__: int
 
         :return: :class:`Address` if an Address with the given id exists else None
         :rtype: Address | None
         """
-        if id not in self.__df_memory.index:
+        if id__ not in self.__df_memory.index:
             return None
-        return self.__series_to_address(self.__df_memory.iloc[id])
+        return self.__series_to_address(self.__df_memory.iloc[id__])
 
     @__require_df_memory
     def search(self, search_string: str) -> dict[int, Address]:
@@ -232,7 +230,7 @@ class CsvInterface(AddressDatabaseInterface):
         return address_dict
 
     @__require_df_memory
-    def delete(self, id: int) -> int | None:
+    def delete(self, id__: int) -> int | None:
         """
         Decorated by :func:`__require_df_memory`.
         Deletes the address with the given ID from objects memory.
@@ -243,21 +241,21 @@ class CsvInterface(AddressDatabaseInterface):
         :rtype: int | None
         """
         try:
-            self.__df_memory.drop(index=id, inplace=True)
-            return id
+            self.__df_memory.drop(index=id__, inplace=True)
+            return id__
         except KeyError:
             # If it cant be deleted it was never there
             return None
 
     @__require_df_memory
-    def update(self, id: int, **kwargs) -> int:
+    def update(self, id__: int, **kwargs) -> int:
         """
         Decorated by :func:`__require_df_memory`
         Updates an address by its ID using the provided kwargs.
         Known keys are all fields in :class:`Address`. All unknown keys will be ignored.
 
-        :param id: the ID of the address to update
-        :type id: int
+        :param id__: the ID of the address to update
+        :type id__: int
         :param kwargs: key-value pairs of a field in address and its new value
         :type kwargs: any
         :raises KeyError: if the given ID in not associated with any address
@@ -266,17 +264,17 @@ class CsvInterface(AddressDatabaseInterface):
         """
         try:
             # Ensuer the givin ID exists
-            row = self.__df_memory.loc[id]
+            row = self.__df_memory.loc[id__]
         except IndexError:
-            raise KeyError(f"Address with id {id} does not exist")
+            raise KeyError(f"Address with id__ {id__} does not exist")
 
         for key, value in kwargs.items():
             if key not in row.keys():
                 print("Skipping key, not supported")
                 continue
             # Mutations MUST be done on Dataframes directly
-            self.__df_memory.at[id, key] = value
-        return id
+            self.__df_memory.at[id__, key] = value
+        return id__
 
     def add_address(self, address: Address) -> int:
         """
@@ -357,10 +355,10 @@ class CsvInterface(AddressDatabaseInterface):
         """
         See :func:`__enter__`. Calls :func:`close`, therefore
         saving the current object to the file and resetting it.
-                
-        :param exc_type: 
-        :param exc_val: 
-        :param exc_tb: 
+
+        :param exc_type:
+        :param exc_val:
+        :param exc_tb:
 
         :rtype: None
         """
@@ -399,6 +397,6 @@ class CsvInterface(AddressDatabaseInterface):
             raise StopIteration
 
 
-# I have used "object memory" in the documentation to refer to __df_memory in 
+# I have used "object memory" in the documentation to refer to __df_memory in
 # a simpler way, to help those not familiar with the implementation of the interface with its usage.
-# Is this ok? 
+# Is this ok?

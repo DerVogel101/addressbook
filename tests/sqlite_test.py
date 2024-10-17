@@ -1,5 +1,5 @@
-from ..address import Address
-from ..sqlite_interface import SqliteInterface
+from address import Address
+from sqlite_interface import SqliteInterface
 
 from datetime import date
 from pydantic import ValidationError

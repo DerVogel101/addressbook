@@ -10,6 +10,12 @@ class SqliteInterface(AddressDatabaseInterface):
     """
     Interface for interacting with an SQLite database containing address information.
 
+    :ivar __sql_path: Path to the SQLite database file.
+    :vartype __sql_path: str | None
+    :ivar __squirrel_lite: SQLite database object.
+    :vartype __squirrel_lite: SqliteDatabase | None
+    :ivar __connection_open: Flag indicating whether the database connection is open.
+    :vartype __connection_open: bool
     :param path: Optional path to the SQLite database file.
     :type path: Optional[str]
     """

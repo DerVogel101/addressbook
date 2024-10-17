@@ -33,6 +33,9 @@ autodoc_default_options = {
     'private-members': True,
 }
 
+# Include TODOs in the generated documentation
+todo_include_todos = True
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 

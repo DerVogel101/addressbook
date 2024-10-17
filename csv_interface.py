@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pandas as pd
 import numpy as np
+from typing import Callable
 
 from address import Address
 from address_container_interface import AddressDatabaseInterface
@@ -14,121 +15,71 @@ from address_container_interface import AddressDatabaseInterface
 class CsvInterface(AddressDatabaseInterface):
     """
     A class to interface with a CSV file for storing and retrieving address data.
-
-    Attributes:
-    -----------
-    __path : str
-        The path to the CSV file.
-    __df_memory : pd.DataFrame
-        The in-memory DataFrame storing the address data.
-
+    Handles reads, writes, and queries from/to a CSV file.
+    
+    :param path: The path to the CSV file.
+    :type path: str | None
+    
     Methods:
-    --------
-    __require_df_memory(func):
-        A decorator to ensure the DataFrame is loaded in memory before executing the function.
-
-    set_path(path: str) -> None:
-        Sets the path to the CSV file.
-
-    open() -> None:
-        Opens the CSV file and loads its content into a DataFrame.
-
-    save() -> None:
-        Saves the current state of the DataFrame to the CSV file.
-
-    close() -> None:
-        Saves the DataFrame and clears it from memory.
-
-    get_all() -> dict[int, Address]:
-        Retrieves all addresses from the DataFrame.
-
-    get(__id: int) -> Address | None:
-        Retrieves an address by its ID.
-
-    search(search_string: str) -> dict[int, Address]:
-        Searches for addresses that match the search string.
-
-    delete(__id: int) -> int | None:
-        Deletes an address by its ID.
-
-    update(id: int, **kwargs) -> int | None:
-        Updates an address by its ID.
-
-    add_address(address: Address) -> int:
-        Adds a new address to the DataFrame.
-
-    get_today_birthdays() -> dict[int, Address]:
-        Retrieves addresses with birthdays today.
-
-    __series_to_address(series: pd.Series) -> Address:
-        Converts a Pandas Series to an Address object.
-
-    __enter__() -> CsvInterface:
-        Enters the runtime context related to this object.
-
-    __exit__(exc_type, exc_val, exc_tb) -> None:
-        Exits the runtime context related to this object.
-
-    __iter__() -> CsvInterface:
-        Returns an iterator object.
-
-    __next__() -> Address:
-        Returns the next address in the DataFrame.
+    ########
     """
 
-    def __init__(self, path):
+    def __init__(self, path: str | None):
         """
-        Initializes the CsvInterface with the path to the CSV file.
+        Initializes the CsvInterface. 
+        If a path is given, it is set and the file at the path gets opend.
 
-        Parameters:
-        -----------
-        path : str
-            The path to the CSV file.
+        :param path: the path to the CSV file
+        :type path: str, optional
+        :rtype: CsvInterface
         """
         self.__path = None
         self.__df_memory = None
-        self.set_path(path)
-        self.open()
+        if path is not None:
+            self.set_path(path)
+            self.open()
+        #return self
 
     @staticmethod
-    def __require_df_memory(func):
+    def __require_df_memory(func: Callable) -> Callable:
         """
-        A decorator to ensure the DataFrame is loaded in memory before executing the function.
+        Class-specific decorator.
+        Ensures that the object :attr:`__df_memory` is not None
+        before calling the decorated function.
+        If it is, a default value based on the function name is returne by the wrapper.
+        Instead of calling the function.
 
-        Parameters:
-        -----------
-        func : function
-            The function to be decorated.
-
-        Returns:
-        --------
-        function
-            The wrapped function.
+        :param func: the function to be decorated
+        :type func: function
+        :return: The :func:`wapper` which can return any
+        :rtype: function
         """
-        def wrapper(self, *args, **kwargs):
+        def wrapper(self, *args, **kwargs) -> any:
+            """
+            :param args: Args passed to the function
+            :param kwargs: Kwargs passed to the function
+            :return: None, an empty list, or the result of the function
+            """
             if self.__df_memory is None:
                 match func.__name__:
                     case 'search' | 'get_all' | 'get_today_birthdays':
-                        return []
+                        return {}
                     case _:
                         return None
             return func(self, *args, **kwargs)
 
         return wrapper
 
-    def set_path(self, path):
+    def set_path(self, path: str) -> None:
         """
-        Sets the path to the CSV file.
+        Sets the path to the CSV file, checking if the path is valid.
+        Changing the path to another file after reading from one is supported.
 
-        Parameters:
-        -----------
-        path : str
-            The path to the CSV file.
-
-        Raises:
-        -------
-        KeyError
-            If the path is invalid.
+        :param path: the path to the CSV file
+        :type path: str
+        :raises KeyError: if the path is invalid
+        :return: None, if successful
+        :rtype: None
         """
         if os.path.isabs(path):
             match os.name:
@@ -146,12 +97,16 @@ class CsvInterface(AddressDatabaseInterface):
 
     def open(self) -> None:
         """
-        Opens the CSV file and loads its content into a DataFrame.
+        Reads the CSV file at the path set in :func:`set_path` 
+        or during construction into object memory (:attr:`__df_memory`).
+        While reading, the types of some collums in the csv fiele get manualy converted,
+        ensureing the correct type will be used.
+        After reading, the functuion closes the file. 
 
-        Raises:
-        -------
-        IsADirectoryError
-            If the path is a directory.
+        :raises IsADirectoryError: if the path is a directory
+        
+        :return: None, if secsessfull. Content of the file was loaded as class:`pd.dataframes` in object memory. 
+        :rtype: None
         """
         if Path(self.__path).is_file():
             with open(self.__path, 'r') as file:
@@ -170,7 +125,13 @@ class CsvInterface(AddressDatabaseInterface):
     @__require_df_memory
     def save(self) -> None:
         """
-        Saves the current state of the DataFrame to the CSV file.
+        Saves the object memory into the CSV file at the path set in :func:`set_path`.
+        The file is opened in 'a+' mode. 
+
+        See :func:`open` for possible Errors.
+
+        :return: None, if save successful
+        :rtype: None
         """
         with open(self.__path, 'a+') as file:
             file.truncate(0)
@@ -179,7 +140,13 @@ class CsvInterface(AddressDatabaseInterface):
 
     def close(self) -> None:
         """
-        Saves the DataFrame and clears it from memory.
+        Saves the current data to the file and then closes the CSV file.
+        After this call, the object is in an empty state with only the path set.
+        A new path may be set or the file may be re-opened.
+
+        See :func:`save` for possible Errors.
+
+        :rtype: None
         """
         self.save()
         self.__df_memory = None
@@ -188,12 +155,11 @@ class CsvInterface(AddressDatabaseInterface):
     @__require_df_memory
     def get_all(self) -> dict[int, Address]:
         """
-        Retrieves all addresses from the DataFrame.
+        Decorated by :func:`__require_df_memory`.
+        Fetches all addresses from object memory (the csv file, if one was opened).
 
-        Returns:
-        --------
-        dict[int, Address]
-            A dictionary with address IDs as keys and Address objects as values.
+        :return: A dictonary with the key beeing the ID of the Address in the CSV file
+        :rtype: dict[int, Address]
         """
         addresses = {}
         for row in self.__df_memory.iterrows():
@@ -201,38 +167,34 @@ class CsvInterface(AddressDatabaseInterface):
         return addresses
 
     @__require_df_memory
-    def get(self, __id: int) -> Address | None:
+    def get(self, id: int) -> Address | None:
         """
+        Decorated by :func:`__require_df_memory`
         Retrieves an address by its ID.
 
-        Parameters:
-        -----------
-        __id : int
-            The ID of the address to retrieve.
+        :param id: ID of the Address to return
+        :type id: int
 
-        Returns:
-        --------
-        Address | None
-            The Address object if found, else None.
+        :return: :class:`Address` if an Address with the given id exists
+        :rtype: Address | None
         """
-        if __id not in self.__df_memory.index:
+        if id not in self.__df_memory.index:
             return None
-        return self.__series_to_address(self.__df_memory.iloc[__id])
+        return self.__series_to_address(self.__df_memory.iloc[id])
 
     @__require_df_memory
     def search(self, search_string: str) -> dict[int, Address]:
-        """
+        """       
+        Decorated by :func:`__require_df_memory`.
         Searches for addresses that match the search string.
+        The query can inclued any field of Address but should only include one.
+        See `detailed_csv_search <detailed_csv_search.rst>`_ for more information.
 
-        Parameters:
-        -----------
-        search_string : str
-            The string to search for.
-
-        Returns:
-        --------
-        dict[int, Address]
-            A dictionary with address IDs as keys and Address objects as values.
+        :param search_string: The search term to look for
+        :type search_string: str
+        :return: a dictionary of {ID: :class:`Address`} with all Addresses matchin the query. 
+                Empty if no matches where found.
+        :rtype: dict[int, Address]
         """
         result = self.__df_memory[
             self.__df_memory.apply(
@@ -242,50 +204,42 @@ class CsvInterface(AddressDatabaseInterface):
                 .contains(search_string, case=False, na=False)
                 .any(),
                 axis=1)]
-        return [self.__series_to_address(row[1]) for row in result.iterrows()]
+        address_dict = {}
+        for row in result.iterrows():
+            address_dict[row[0]] = self.__series_to_address(row[1])
+        return address_dict
 
     @__require_df_memory
-    def delete(self, __id: int) -> int | None:
+    def delete(self, id: int) -> int | None:
         """
-        Deletes an address by its ID.
+        Decorated by :func:`__require_df_memory`.
+        Deletes the address with the given ID from objects memory.
 
-        Parameters:
-        -----------
-        __id : int
-            The ID of the address to delete.
-
-        Returns:
-        --------
-        int | None
-            The ID of the deleted address if it was found, else None.
+        :param id: ID of the Address to delete.
+        :type id: int
+        :return: The deleted ID of the deleted address, or None if not found.
+        :rtype: int or None
         """
         try:
-            self.__df_memory.drop(index=__id, inplace=True)
-            return __id
+            self.__df_memory.drop(index=id, inplace=True)
+            return id
         except KeyError:
             return None
 
     @__require_df_memory
-    def update(self, id: int, **kwargs) -> int | None:
+    def update(self, id: int, **kwargs) -> int:
         """
-        Updates an address by its ID.
+        Decorated by :func:`__require_df_memory`
+        Updates an address by its ID using the provided kwargs.
+        Known keys are all fields in :class:`Address`. All unknown keys will be ignored.
 
-        Parameters:
-        -----------
-        id : int
-            The ID of the address to update.
-        kwargs : dict
-            The fields to update.
-
-        Returns:
-        --------
-        int | None
-            The ID of the updated address if it was found.
-
-        Raises:
-        -------
-        KeyError
-            If the address with the given ID does not exist.
+        :param id: the ID of the address to update
+        :type id: int
+        :param kwargs: key-value pairs of address fileds and its new value
+        :type kwargs: any
+        :raises KeyError: if the given ID in not associated with any address
+        :return: the ID of the updated address
+        :rtype: int
         """
         try:
             row = self.__df_memory.loc[id]
@@ -299,24 +253,19 @@ class CsvInterface(AddressDatabaseInterface):
             self.__df_memory.at[id, key] = value
         return id
 
-    def add_address(self, address) -> int:
+    def add_address(self, address: Address) -> int:
         """
-        Adds a new address to the DataFrame.
+        Adds a new address to the objects memory.
 
-        Parameters:
-        -----------
-        address : Address
-            The Address object to add.
-
-        Returns:
-        --------
-        int
-            The ID of the added address.
+        :param address: the :class:`Address` to add
+        :type address: Address
+        :return: the ID that was assigned to the newly added address
+        :rtype: int
         """
         serialized_address = asdict(address)
         new_index = 0
         if self.__df_memory is not None and len(self.__df_memory.index) > 0:
-            new_index = -~self.__df_memory.index[-1]
+            new_index = -~self.__df_memory.index[-1] # -~ is bitwise not negated, therefore +1 :D
             self.__df_memory = pd.concat([self.__df_memory, pd.DataFrame(data=serialized_address, index=[new_index])])
         else:
             self.__df_memory = pd.DataFrame(data=serialized_address, index=[new_index])
@@ -325,12 +274,11 @@ class CsvInterface(AddressDatabaseInterface):
     @__require_df_memory
     def get_today_birthdays(self) -> dict[int, Address]:
         """
-        Retrieves addresses with birthdays today.
+        Decorated by :func:`__require_df_memory`.
+        Fetches all addresses with today's date as their birthday.
 
-        Returns:
-        --------
-        dict[int, Address]
-            A dictionary with address IDs as keys and Address objects as values.
+        :return: A dictionary with the id and values of all address that have today set as their birthday
+        :rtype: dict[int, Address]
         """
         result = self.__df_memory[self.__df_memory.birthdate == date.today().strftime("%Y-%m-%d")]
         address_dict = {}
@@ -341,17 +289,13 @@ class CsvInterface(AddressDatabaseInterface):
     @staticmethod
     def __series_to_address(series: pd.Series) -> Address:
         """
-        Converts a Pandas Series to an Address object.
+        Converts a :class:`pandas.Series` to an :class:`Address`, ensuring all types are correct.
+        Fails of the data series has an unexpected structure.
 
-        Parameters:
-        -----------
-        series : pd.Series
-            The Pandas Series to convert.
-
-        Returns:
-        --------
-        Address
-            The converted Address object.
+        :param series: the data series to convert
+        :type series: pd.Series
+        :return: the converted series as :class:`Address`
+        :rtype: Address
         """
         row_dict = series.to_dict()
         for key, value in row_dict.items():
@@ -370,56 +314,50 @@ class CsvInterface(AddressDatabaseInterface):
     def __enter__(self):
         """
         Enters the runtime context related to this object.
+        This function is a warper for :func:`open` and not technically needed,
+        for all files get cloed imideatly after a read/write. It just enables the use
+        of :code:`with CsvInterface ...`.
 
-        Returns:
-        --------
-        CsvInterface
-            The CsvInterface object.
+        :return: The instance itself.
+        :rtype: CsvInterface
         """
         self.open()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         """
-        Exits the runtime context related to this object.
+        See :func:`__enter__`. Calls close, their for
+        saving the current object to the file and resetting it.
 
-        Parameters:
-        -----------
-        exc_type : type
-            The exception type.
-        exc_val : Exception
-            The exception value.
-        exc_tb : traceback
-            The traceback object.
+        Gets the for contect manager required parameters
+        :param exc_type:
+        :param exc_val:
+        :param exc_tb:
+
+        :rtype: None
         """
         self.close()
         return None
 
     def __iter__(self):
         """
-        Returns an iterator object.
+        Turns the object istself int an iteratable.
 
-        Returns:
-        --------
-        CsvInterface
-            The CsvInterface object.
+        :return: The object itself, with an index set to 0
+        :rtype: CsvInterface
         """
         self.__index = 0
         return self
 
-    def __next__(self):
+    def __next__(self) -> Address:
         """
-        Returns the next address in the DataFrame.
+        Return the next address in object memory.
+        It keeps track of the position using an index variable.
 
-        Returns:
-        --------
-        Address
-            The next Address object.
-
-        Raises:
-        -------
-        StopIteration
-            If there are no more addresses.
+        :raise StopIteration: If object memory is empty 
+            or it was iterated through all elements
+        :return: The next address in object memory
+        :rtype: Address
         """
         if self.__df_memory is None:
             raise StopIteration
@@ -430,21 +368,3 @@ class CsvInterface(AddressDatabaseInterface):
             return result
         else:
             raise StopIteration
-
-
-if __name__ == "__main__":
-    interface = CsvInterface(r"tests/ExampleCSVTest.csv")
-    interface.open()
-    interface.add_address(Address(lastname='Huber', firstname='Hans', street='Obere Bahnhofstra e', number='3', zip_code=70173,
-            city='Stuttgart', birthdate=date(1990, 1, 1), phone='+49 711 1234 5678',
-            email='hans.huber@exaample.de'))
-
-    interface.add_address(Address(lastname='Schmidt', firstname='J rgen', street='K nigstra e', number='1', zip_code=70173,
-               city='Stuttgart', birthdate=date(1980, 2, 2), phone='+49 711 5678 9012',
-               email='juergen.schmidt@example.de'))
-
-    interface.add_address(Address(lastname='Fischer', firstname='Monika', street='Marienplatz', number='2', zip_code=70173,
-               city='Stuttgart', birthdate=date(1970, 3, 3), phone='+49 711 1234 5679',
-               email='monika.fischer@example.com'))
-    interface.save()
-    interface.close()

@@ -33,37 +33,33 @@ class Address:
     """
     A dataclass representing an address.
 
-    Attributes:
-    -----------
-    lastname : str
-        The last name of the person.
-    firstname : str
-        The first name of the person.
-    street : Optional[str]
-        The street name of the address.
-    number : Optional[str]
-        The house number of the address.
-    zip_code : Optional[PositiveInt]
-        The zip code of the address.
-    city : Optional[str]
-        The city of the address.
-    birthdate : Optional[date]
-        The birthdate of the person.
-    phone : Optional[str]
-        The phone number of the person.
-    email : Optional[str]
-        The email address of the person.
+    :param lastname: The last name of the person.
+    :type lastname: str
+    :param firstname: The first name of the person.
+    :type firstname: str
+    :param street: The street name of the address.
+    :type street: str, optional
+    :param number: The house number of the address.
+    :type number: str, optional
+    :param zip_code: The zip code of the address.
+    :type zip_code: PositiveInt, optional
+    :param city: The city of the address.
+    :type city: str, optional
+    :param birthdate: The birthdate of the person.
+    :type birthdate: date, optional
+    :param phone: The phone number of the person.
+    :type phone: str, optional
+    :param email: The email address of the person.
+    :type email: str, optional
 
-    Methods:
-    --------
-    validate_email(cls, v) -> str | None:
-        Validates the email address format.
-    validate_phone(cls, v) -> str | None:
-        Validates the phone number format.
-    validate_number(cls, v) -> str | None:
-        Validates the house number format.
-    __str__() -> str:
-        Returns a string representation of the address.
+     Methods:
+    :func:`validate_email` Validates the email address format.
+
+    :func:`validate_phone` Validates the phone number format.
+
+    :func:`validate_number` Validates the house number format.
+    
+    :func:`__str__` Returns a string representation of the address.     
     """
 
     lastname: str
@@ -81,21 +77,15 @@ class Address:
         """
         Validates the email address format.
 
-        Parameters:
-        -----------
-        v : str
-            The email address to validate.
+        :param v: The email address to validate.
+        :type v: str
 
-        Returns:
-        --------
-        str | None
-            The validated email address or None if not provided.
+        :returns: The validated email address or None if not provided.
+        :rtype: str | None
 
-        Raises:
-        -------
-        ValueError
-            If the email address is invalid.
+        :raises ValueError: If the email address is invalid.
         """
+
         if v is None:
             return v
         pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
@@ -109,21 +99,15 @@ class Address:
         """
         Validates the phone number format.
 
-        Parameters:
-        -----------
-        v : str
-            The phone number to validate.
+        :param v: The phone number to validate.
+        :type v: str
 
-        Returns:
-        --------
-        str | None
-            The validated phone number or None if not provided.
+        :returns: The validated phone number or None if not provided.
+        :rtype: str | None
 
-        Raises:
-        -------
-        ValueError
-            If the phone number is invalid.
+        :raises ValueError: If the phone number is invalid.
         """
+
         if v is None:
             return v
         try:
@@ -140,21 +124,15 @@ class Address:
         """
         Validates the house number format.
 
-        Parameters:
-        -----------
-        v : str
-            The house number to validate.
+        :param v: The house number to validate.
+        :type v: str
 
-        Returns:
-        --------
-        str | None
-            The validated house number or None if not provided.
+        :returns: The validated house number or None if not provided.
+        :rtype: str | None
 
-        Raises:
-        -------
-        ValueError
-            If the house number is invalid.
+        :raises ValueError: If the house number is invalid.
         """
+
         if v is None:
             return v
         pattern = r"^\d+[a-zA-Z]?$"
@@ -167,24 +145,9 @@ class Address:
         """
         Returns a string representation of the address.
 
-        Returns:
-        --------
-        str
-            A string representation of the address.
+        :returns: A string representation of the address.
+        :rtype: str
         """
+
         return (f"{self.lastname} {self.firstname}\n{self.street} {self.number} \n{self.zip_code} {self.city}\n"
                 f"{self.birthdate}\n{self.phone}\n{self.email}")
-
-if __name__ == "__main__":
-    example = Address(
-        lastname="Doe",
-        firstname="John",
-        street="Main Street",
-        number="1",
-        zip_code=12345,
-        city="Springfield",
-        birthdate="2000-01-01",
-        phone="+49 176 1234 5678",
-        email="john.doe@example.com"
-    )
-    print(example)

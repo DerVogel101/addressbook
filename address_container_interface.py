@@ -39,7 +39,7 @@ class AddressDatabaseInterface(ABC):
         :param __id: The ID of the address to delete.
         :return: The ID of the deleted address if it was found, else None.
 
-    update(__id: int, **kwargs) -> int:
+    update(__id: int, kwargs) -> int:
         Updates an address by its ID.
         :param __id: The ID of the address to update.
         :param kwargs: The fields to update.

@@ -94,7 +94,7 @@
 <span class="sd">    :ivar __connection_open: Flag indicating whether the database connection is open.</span>
 <span class="sd">    :vartype __connection_open: bool</span>
 <span class="sd">    :param path: Optional path to the SQLite database file.</span>
-<span class="sd">    :type path: Optional[str]</span>
+<span class="sd">    :type path: str, optional</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="SqliteInterface.__init__">
 <a class="viewcode-back" href="../sqlite_interface.html#sqlite_interface.SqliteInterface.__init__">[docs]</a>
@@ -103,7 +103,7 @@
 <span class="sd">        Initialize the SqliteInterface instance.</span>
 
 <span class="sd">        :param path: Optional path to the SQLite database file.</span>
-<span class="sd">        :type path: Optional[str]</span>
+<span class="sd">        :type path: str, optional</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__sql_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__squirrel_lite</span><span class="p">:</span> <span class="n">SqliteDatabase</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>

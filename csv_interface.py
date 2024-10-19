@@ -130,6 +130,7 @@ class CsvInterface(AddressDatabaseInterface):
                     # We must convert numbers manualy, otherwise numpy numbers 1 will become 1.0 when converted to string
                     self.__df_memory = pd.read_csv(file, index_col=["id"])
                     if "number" in self.__df_memory.columns:
+                        # Only convert to int before converting to string if it really is a number
                         self.__df_memory["number"] = self.__df_memory["number"].apply(
                            lambda x: str(int(x)) if isinstance(x, str) and x.isdigit() else\
                                 (str(x) if pd.notnull(x) else None))

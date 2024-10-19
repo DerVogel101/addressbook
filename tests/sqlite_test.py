@@ -143,7 +143,7 @@ class TestSqlInterface(unittest.TestCase):
 
     @freeze_time("1990-01-01")
     def test_get_today_birthdays(self):
-        result = self.interface.get_today_birthdays()
+        result = self.interface.get_todays_birthdays()
         self.assertEqual(result,
                          {1:
                               Address(lastname='Huber', firstname='Hans', street='Obere Bahnhofstra e', number='3',

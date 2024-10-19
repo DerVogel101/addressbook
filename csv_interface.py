@@ -298,7 +298,7 @@ class CsvInterface(AddressDatabaseInterface):
         return new_index
 
     @__require_df_memory
-    def get_today_birthdays(self) -> dict[int, Address]:
+    def get_todays_birthdays(self) -> dict[int, Address]:
         """
         Decorated by :func:`__require_df_memory`.
         Fetches all addresses with today's date as their birthday.

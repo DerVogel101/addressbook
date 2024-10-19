@@ -105,7 +105,7 @@ class AddressDatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    def get_today_birthdays(self) -> dict[int, Address]:
+    def get_todays_birthdays(self) -> dict[int, Address]:
         """
         Retrieves addresses with birthdays today.
 

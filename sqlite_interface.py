@@ -200,7 +200,7 @@ class SqliteInterface(AddressDatabaseInterface):
         row_id = self.__squirrel_lite.add(address)
         return row_id
 
-    def get_today_birthdays(self) -> dict[int, Address]:
+    def get_todays_birthdays(self) -> dict[int, Address]:
         """
         Retrieve addresses with birthdays today.
 

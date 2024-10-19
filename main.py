@@ -67,9 +67,5 @@ def csv():
 
 if __name__ == "__main__":
     sql()
-    try:
-        csv()
-    except ValueError as e:
-        from tkinter import messagebox
-        messagebox.showerror("Error", "Niklas fix das ma\n" + str(e))
+    csv()
     unittest.main()

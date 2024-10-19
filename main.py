@@ -67,5 +67,7 @@ def csv():
 
 if __name__ == "__main__":
     sql()
+    input("Press Enter to continue...")
     csv()
+    input("Press Enter to continue...")
     unittest.main()

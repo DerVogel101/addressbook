@@ -1,9 +1,27 @@
 import sqlite3
 from contextlib import closing
-from .address import Address
+from address import Address
 
 
 def create_table():
+    """
+    Create the addresses table in the SQLite database if it does not exist.
+
+    This function connects to the SQLite database specified by 'addresses.sqlite3' and creates a table named 'addresses'
+    with the following columns:
+    - id: INTEGER PRIMARY KEY AUTOINCREMENT
+    - lastname: TEXT
+    - firstname: TEXT
+    - street: TEXT
+    - number: TEXT
+    - zip_code: INTEGER
+    - city: TEXT
+    - birthdate: TEXT
+    - phone: TEXT
+    - email: TEXT
+
+    The combination of lastname, firstname, street, number, zip_code, city, and birthdate must be unique.
+    """
     with closing(sqlite3.connect('addresses.sqlite3')) as conn:
         with conn:
             conn.execute("""
@@ -23,7 +41,18 @@ def create_table():
             """)
 
 
-def save_to_sqlite(addresses: list):
+def save_to_sqlite(addresses: list) -> list[int]:
+    """
+    Save a list of addresses to the SQLite database.
+
+    This function inserts each address in the provided list into the 'addresses' table in the SQLite database.
+    If an address already exists (based on the unique constraint), it will be skipped.
+
+    :param addresses: List of Address objects to save
+    :type addresses: list
+    :return: List of IDs of the inserted addresses
+    :rtype: list[int]
+    """
     ids = []
     with closing(sqlite3.connect('addresses.sqlite3')) as conn:
         cursor = conn.cursor()
@@ -41,15 +70,46 @@ def save_to_sqlite(addresses: list):
 
 
 class SqlitePathError(Exception):
+    """
+    Exception raised for errors in the SQLite database path.
+
+    This exception is raised when there is an issue with the path to the SQLite database file.
+    """
     pass
 
 
 class SqliteDatabase:
+    """
+    Class for interacting with an SQLite database.
+
+    This class provides methods to open, close, and interact with an SQLite database specified by the given path.
+
+    :ivar __path: Path to the SQLite database file
+    :vartype __path: str
+    :ivar __conn: Connection to the SQLite database
+    :vartype __conn: sqlite3.Connection | None
+    :param path: Path to the SQLite database file
+    :type path: str
+    """
     def __init__(self, path: str):
+        """
+        Initialize the SqliteDatabase instance.
+
+        :param path: Path to the SQLite database file
+        :type path: str
+        """
         self.__path = path
         self.__conn: sqlite3.Connection | None = None
 
     def open(self):
+        """
+        Open a connection to the SQLite database.
+
+        This method attempts to open a connection to the SQLite database specified by the path.
+        If the database cannot be opened, a SqlitePathError is raised.
+
+        :raises SqlitePathError: If the database cannot be opened
+        """
         try:
             self.__conn = sqlite3.connect(self.__path)
         except sqlite3.OperationalError as e:
@@ -72,12 +132,32 @@ class SqliteDatabase:
         """)
 
     def close(self):
+        """
+        Close the connection to the SQLite database.
+
+        This method closes the connection to the SQLite database if it is open.
+        """
         self.__conn.close()
 
     def save(self):
+        """
+        Commit the current transaction to the SQLite database.
+
+        This method commits any pending transaction to the SQLite database.
+        """
         self.__conn.commit()
 
     def add(self, address_obj: Address) -> int:
+        """
+        Add a new address to the SQLite database.
+
+        This method inserts a new address into the 'addresses' table in the SQLite database.
+
+        :param address_obj: Address object to add
+        :type address_obj: Address
+        :return: ID of the added address
+        :rtype: int
+        """
         cursor = self.__conn.cursor()
         try:
             cursor.execute("""
@@ -90,6 +170,16 @@ class SqliteDatabase:
         return cursor.lastrowid
 
     def get_where(self, where_clause: str) -> list[dict]:
+        """
+        Retrieve addresses from the SQLite database that match the given where clause.
+
+        This method executes a SELECT query with the provided where clause and returns the matching addresses.
+
+        :param where_clause: SQL where clause to filter addresses
+        :type where_clause: str
+        :return: List of dictionaries representing the matching addresses
+        :rtype: list[dict]
+        """
         cursor = self.__conn.cursor()
         cursor.row_factory = sqlite3.Row
         cursor.execute(f"SELECT * FROM addresses WHERE {where_clause}")
@@ -99,6 +189,14 @@ class SqliteDatabase:
         return result
 
     def get_all(self) -> list[dict]:
+        """
+        Retrieve all addresses from the SQLite database.
+
+        This method executes a SELECT query to retrieve all addresses from the 'addresses' table.
+
+        :return: List of dictionaries representing all addresses
+        :rtype: list[dict]
+        """
         cursor = self.__conn.cursor()
         cursor.row_factory = sqlite3.Row
         cursor.execute("""
@@ -110,6 +208,16 @@ class SqliteDatabase:
         return result
 
     def delete(self, row_id: int) -> int | None:
+        """
+        Delete an address from the SQLite database by its ID.
+
+        This method deletes the address with the specified ID from the 'addresses' table.
+
+        :param row_id: ID of the address to delete
+        :type row_id: int
+        :return: ID of the deleted address if found, else None
+        :rtype: int | None
+        """
         cursor = self.__conn.cursor()
         cursor.execute("""
             DELETE FROM addresses WHERE id = ?
@@ -120,6 +228,19 @@ class SqliteDatabase:
             return None
 
     def search(self, search_string: str) -> list[dict]:
+        """
+        Search for addresses in the SQLite database that match the search string.
+
+        This method executes a SELECT query to search for addresses that match the provided search string in any of the
+        address fields.
+
+        For more details, see `detailed_sql_search <detailed_sql_search.html>`_.
+
+        :param search_string: String to search for
+        :type search_string: str
+        :return: List of dictionaries representing the matching addresses
+        :rtype: list[dict]
+        """
         cursor = self.__conn.cursor()
         cursor.row_factory = sqlite3.Row
         query = """
@@ -140,6 +261,17 @@ class SqliteDatabase:
         return [dict(row) for row in result]
 
     def update(self, row_id: int, **kwargs) -> int | None:
+        """
+        Update an address in the SQLite database by its ID.
+
+        This method updates the address with the specified ID in the 'addresses' table with the provided fields.
+
+        :param row_id: ID of the address to update
+        :type row_id: int
+        :param kwargs: Fields to update
+        :return: ID of the updated address if found, else None
+        :rtype: int | None
+        """
         try:
             previous = self.get_where(f"id = {row_id}")[0]
         except IndexError:

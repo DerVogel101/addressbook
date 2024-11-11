@@ -23,6 +23,8 @@ extensions = [
         'sphinx.ext.todo',
         'sphinx.ext.viewcode',
         'sphinx.ext.napoleon',
+        'sphinx.ext.autosummary',
+        'sphinx.ext.autodoc.typehints'
 ]
 
 templates_path = ['_templates']
@@ -33,8 +35,16 @@ autodoc_default_options = {
     'private-members': True,
 }
 
+# Include TODOs in the generated documentation
+todo_include_todos = True
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_static_path = ['_static']
 html_theme = 'sphinx_rtd_theme'
+html_static_path = ['_static']
+
+# Add the custom CSS file
+html_css_files = [
+    'custom.css',
+]

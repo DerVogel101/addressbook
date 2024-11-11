@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sqlite_interface module &mdash; Birthday Database 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=05eea8f6" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Search from sqlite_database" href="detailed_sql_search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Birthday Database
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Address Book Database</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="address.html">Address module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="address_container_interface.html">address_container_interface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context_support.html">context_support module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csv_interface.html">csv_interface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite_database.html">sqlite_database module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">sqlite_interface module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sqlite_interface.SqliteInterface"><code class="docutils literal notranslate"><span class="pre">SqliteInterface</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.__enter__"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.__enter__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.__exit__"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.__exit__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.__init__"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.__iter__"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.__iter__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface._abc_impl"><code class="docutils literal notranslate"><span class="pre">SqliteInterface._abc_impl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.add_address"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.add_address()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.close"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.delete"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.get"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.get_all"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.get_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.get_todays_birthdays"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.get_todays_birthdays()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.open"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.open()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.save"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.search"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.search()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.set_path"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.set_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite_interface.SqliteInterface.update"><code class="docutils literal notranslate"><span class="pre">SqliteInterface.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Birthday Database</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Address Book Database</a></li>
+      <li class="breadcrumb-item active">sqlite_interface module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/sqlite_interface.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-sqlite_interface">
+<span id="sqlite-interface-module"></span><h1>sqlite_interface module<a class="headerlink" href="#module-sqlite_interface" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sqlite_interface.</span></span><span class="sig-name descname"><span class="pre">SqliteInterface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="address_container_interface.html#address_container_interface.AddressDatabaseInterface" title="address_container_interface.AddressDatabaseInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">AddressDatabaseInterface</span></code></a></p>
+<p>Interface for interacting with an SQLite database containing address information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>__sql_path</strong> (<em>str</em><em> | </em><em>None</em>) – Path to the SQLite database file.</p></li>
+<li><p><strong>__squirrel_lite</strong> (<a class="reference internal" href="sqlite_database.html#sqlite_database.SqliteDatabase" title="sqlite_database.SqliteDatabase"><em>SqliteDatabase</em></a><em> | </em><em>None</em>) – SQLite database object.</p></li>
+<li><p><strong>__connection_open</strong> (<em>bool</em>) – Flag indicating whether the database connection is open.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>path</strong> (<em>str</em><em>, </em><em>optional</em>) – Optional path to the SQLite database file.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.__enter__">
+<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.__enter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.__enter__" title="Link to this definition"></a></dt>
+<dd><p>Enter the runtime context related to this object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.__exit__">
+<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exc_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc_tb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.__exit__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.__exit__" title="Link to this definition"></a></dt>
+<dd><p>Exit the runtime context related to this object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exc_type</strong> – Exception type</p></li>
+<li><p><strong>exc_val</strong> – Exception value</p></li>
+<li><p><strong>exc_tb</strong> – Traceback object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the SqliteInterface instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em>, </em><em>optional</em>) – Optional path to the SQLite database file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">iter</span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.__iter__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.__iter__" title="Link to this definition"></a></dt>
+<dd><p>Return an iterator over all addresses in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Iterator of tuples containing (id, Address)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>iter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#sqlite_interface.SqliteInterface._abc_impl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.add_address">
+<span class="sig-name descname"><span class="pre">add_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.add_address"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.add_address" title="Link to this definition"></a></dt>
+<dd><p>Add a new address to the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>address</strong> (<a class="reference internal" href="address.html#address.Address" title="address.Address"><em>Address</em></a>) – Address object to add</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID of the added address</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the address is not an instance of Address</p></li>
+<li><p><strong>ValueError</strong> – If the database is not open</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.close" title="Link to this definition"></a></dt>
+<dd><p>Close the database connection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_SqliteInterface__id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.delete" title="Link to this definition"></a></dt>
+<dd><p>Delete an address by its ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>__id</strong> (<em>int</em>) – ID of the address to delete</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID of the deleted address if found, else None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int | None</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the database is not open</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_SqliteInterface__id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="address.html#address.Address" title="address.Address"><span class="pre">Address</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.get" title="Link to this definition"></a></dt>
+<dd><p>Retrieve an address by its ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>__id</strong> (<em>int</em>) – ID of the address</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Address object if found, else None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="address.html#address.Address" title="address.Address">Address</a> | None</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the database is not open</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.get_all">
+<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="address.html#address.Address" title="address.Address"><span class="pre">Address</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.get_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.get_all" title="Link to this definition"></a></dt>
+<dd><p>Retrieve all addresses from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary of addresses with their IDs as keys</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[int, <a class="reference internal" href="address.html#address.Address" title="address.Address">Address</a>]</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the database is not open</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.get_todays_birthdays">
+<span class="sig-name descname"><span class="pre">get_todays_birthdays</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="address.html#address.Address" title="address.Address"><span class="pre">Address</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.get_todays_birthdays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.get_todays_birthdays" title="Link to this definition"></a></dt>
+<dd><p>Retrieve addresses with birthdays today.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary of addresses with their IDs as keys</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[int, <a class="reference internal" href="address.html#address.Address" title="address.Address">Address</a>]</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the database is not open</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.open">
+<span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.open" title="Link to this definition"></a></dt>
+<dd><p>Open the database connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the path is invalid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.save" title="Link to this definition"></a></dt>
+<dd><p>Save changes to the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.search">
+<span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="address.html#address.Address" title="address.Address"><span class="pre">Address</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.search" title="Link to this definition"></a></dt>
+<dd><p>Search for addresses matching the search string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>search_string</strong> (<em>str</em>) – String to search for</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of matching addresses with their IDs as keys</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[int, <a class="reference internal" href="address.html#address.Address" title="address.Address">Address</a>]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the database is not open</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.set_path">
+<span class="sig-name descname"><span class="pre">set_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.set_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.set_path" title="Link to this definition"></a></dt>
+<dd><p>Set the path to the SQLite database file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to the SQLite database file</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the path is not a string</p></li>
+<li><p><strong>ValueError</strong> – If the connection is open</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite_interface.SqliteInterface.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_SqliteInterface__id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/sqlite_interface.html#SqliteInterface.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sqlite_interface.SqliteInterface.update" title="Link to this definition"></a></dt>
+<dd><p>Update an address by its ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>__id</strong> (<em>int</em>) – ID of the address to update</p></li>
+<li><p><strong>kwargs</strong> – Fields to update</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID of the updated address if found, else None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If the database is not open</p></li>
+<li><p><strong>KeyError</strong> – If the address with the given ID does not exist</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="detailed_sql_search.html" class="btn btn-neutral float-left" title="Search from sqlite_database" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Katzenkralle, DerVogel101.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

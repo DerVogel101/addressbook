@@ -1,5 +1,5 @@
-from ..address import Address
-from ..csv_interface import CsvInterface
+from address import Address
+from csv_interface import CsvInterface
 
 from datetime import date
 from pydantic import ValidationError
@@ -10,11 +10,11 @@ import random
 import shutil
 import os
 
-# # execute me from db_api with pytest -v tests/sqlite_test.py 
+# # execute me from project root with pytest -v tests/sqlite_test.py 
 class TestCsvInterface(unittest.TestCase):
 
     def setUp(self) -> None:
-        example_path = f"{'/'.join(os.path.realpath(__file__).split('/')[:-1])}/ExampleCSVTest.csv"
+        example_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "ExampleCSVTest.csv")  # example_path = f"{'/'.join(os.path.realpath(__file__).split('/')[:-1])}/ExampleCSVTest.csv"
         self.seed = random.randint(0, 1000)
         shutil.copyfile(example_path, rf"./csvTest{self.seed}.csv")
         self.interface = CsvInterface(rf"./csvTest{self.seed}.csv")
@@ -94,7 +94,7 @@ class TestCsvInterface(unittest.TestCase):
                                  email="hans.huber@exaample.de"))
 
     def test_update(self):
-        self.assertEqual(0, self.interface.update(
+        val = self.interface.update(
             0,
             lastname="Schmidt",
             firstname="J rgen",
@@ -105,7 +105,8 @@ class TestCsvInterface(unittest.TestCase):
             birthdate="1980-02-10",
             phone="+49 711 5678 9012",
             email="juergen.schmidt@example.de"
-        ))
+        )
+        self.assertEqual(0, val)
         new_address = self.interface.get(0)
         self.assertEqual(new_address, Address(lastname="Schmidt", firstname="J rgen", street="K nigstra e", number="1",
                                               zip_code=234643, city="Belin", birthdate="1980-02-10",
@@ -142,7 +143,7 @@ class TestCsvInterface(unittest.TestCase):
 
     @freeze_time("1990-01-01")
     def test_get_today_birthdays(self):
-        result = self.interface.get_today_birthdays()
+        result = self.interface.get_todays_birthdays()
         self.assertEqual(result,
                          {0:
                               Address(lastname='Huber', firstname='Hans', street='Obere Bahnhofstra e', number='3',

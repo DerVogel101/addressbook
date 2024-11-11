@@ -1,5 +1,5 @@
-addrbook
-========
+Address Book Database
+=====================
 
 .. toctree::
    :maxdepth: 4

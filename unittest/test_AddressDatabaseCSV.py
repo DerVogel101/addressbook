@@ -19,7 +19,6 @@ class TestAddressDatabaseCSV(TestCase):
     def setUp(self):
         self.dummy_extension = "csv"
         self.existing_filepath = "./addrbook/unittest/test_addresses.csv"
-        self.existing_filepath = "./addrbook/unittest/test_addresses.csv"
         self.faker = Faker()
         self.__dummy_filenames = []
         self.__address_db = AddressDatabaseCSV()  # create an instance of the class

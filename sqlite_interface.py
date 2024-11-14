@@ -210,5 +210,5 @@ class SqliteInterface(AddressDatabaseInterface):
         """
         if not self.__squirrel_lite:
             raise ValueError("Database is not open")
-        cursor = self.__squirrel_lite.get_where(f"birthdate = '{date.today()}'")
+        cursor = self.__squirrel_lite.get_where(f"strftime('%m-%d', birthdate) = '{date.today().strftime('%m-%d')}'")
         return {row['id']: Address(**row) for row in cursor}

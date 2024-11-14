@@ -202,7 +202,7 @@ class CsvInterface(AddressDatabaseInterface):
         """
         if id__ not in self.__df_memory.index:
             return None
-        return self.__series_to_address(self.__df_memory.iloc[id__])
+        return self.__series_to_address(self.__df_memory.loc[id__])
 
     @__require_df_memory
     def search(self, search_string: str) -> dict[int, Address]:

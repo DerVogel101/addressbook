@@ -224,7 +224,7 @@ class CsvInterface(AddressDatabaseInterface):
                 lambda row: row
                 .astype(str)
                 .str
-                .contains(search_string, case=False, na=False)
+                .contains(re.escape(search_string), case=False, na=False)
                 .any(),
                 axis=1)]
         address_dict = {}
@@ -309,7 +309,9 @@ class CsvInterface(AddressDatabaseInterface):
         :return: A dictionary with the id and values of all address that have today set as their birthday
         :rtype: dict[int, Address]
         """
-        result = self.__df_memory[self.__df_memory.birthdate == date.today().strftime("%Y-%m-%d")]
+        result = self.__df_memory[
+        self.__df_memory['birthdate'].apply(lambda x: x.strftime("%m-%d") if type(x) == date else None) == date.today().strftime("%m-%d")
+        ]
         address_dict = {}
         for row in result.iterrows():
             address_dict[row[0]] = self.__series_to_address(row[1])

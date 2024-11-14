@@ -266,9 +266,11 @@ class TestAddressDatabaseCSV(TestCase):
         delta_years = (12, 20, 3, 7)
         for dy in delta_years:
             add_today = self.__get_random_address__()
+            add_today.firstname = f"BDTEST{dy}"
             add_today.birthdate = date.today().replace(year=date.today().year-dy)
             print(add_today)
             temp_adb.add_address(add_today)
+        a = temp_adb.get_all()
         birthdates = temp_adb.get_todays_birthdays()
         self.assertEqual(len(birthdates), len(delta_years), f"get_todays_birthdays failed. Not all birthdates (must be {len(delta_years)} found")
         for address in birthdates.values():

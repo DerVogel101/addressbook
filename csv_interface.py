@@ -27,7 +27,7 @@ class CsvInterface(AddressDatabaseInterface):
     ########
     """
 
-    def __init__(self, path: str | None):
+    def __init__(self, path: str | None = None):
         """
         Initializes the CsvInterface. 
         If a path is given, it is set and the file at the path gets opened
@@ -94,7 +94,7 @@ class CsvInterface(AddressDatabaseInterface):
         match os.name:
             # Based on the os, choose the appropriate pattern
             case 'nt':
-                pattern = r"[a-zA-Z]:\\(?:[a-zA-Z0-9]+\\)*[a-zA-Z0-9]+\.csv$"
+                pattern = r"[a-zA-Z]:\\(?:[^\\/:*?\"<>|]+\\)*[^\\/:*?\"<>|]+\.csv$"
             case _:
                 pattern = r"^(?:/[^/ ]*)*/?.csv$"
         if re.search(pattern, path):

@@ -1,0 +1,8 @@
+id,lastname,firstname,postal_code,place,street,number,birthday,phone,email
+2,Musterfrau,Erika,54321,Musterstadt,Musterstraße,2,2000-01-02,+49 0421 101,ErikaMusterfrau@web.de
+4,Meier,Anna,54321,Musterstadt,Musterstraße,2,2000-01-02,+49 0421 101,A.Meier@gmx.de
+5,Pan,Peter,12345,Berlin,Hauptstr.,12,1200-01-01,+49 0421 101,P.Pan@heaven.org
+6,Muster,Max,12345,Musterstadt,Musterstraße,1,2000-01-01,+49 0421 101,MaxMusterman@gmx.de
+7,Musterfrau,Petra,54321,Musterstadt,Musterstraße,2,2000-01-02,+49 0421 101,PetraMusterfrau@web.de
+8,Schmidt,Anna,54321,Musterstadt,Musterstraße,2,2000-01-02,+49 0421 101,A.Schmidt@gmx.de
+9,Rumpel,Stilz,12345,somewhere,Hauptstr.,12,1200-01-01,+49 0421 101,Rumpelstilz@farries.org
